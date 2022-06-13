@@ -28,5 +28,6 @@ public class OkxSDK {
         APIKeyHolder apiKeyHolder = new APIKeyHolder();
         apiKeyHolder.init(accessToken);
         return buildClient(apiKeyHolder,client);
+
     }
 }
