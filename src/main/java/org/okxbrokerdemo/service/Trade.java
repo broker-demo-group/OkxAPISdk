@@ -15,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Trade {
@@ -27,44 +28,12 @@ public class Trade {
 
 
     private APIKeyHolder apiKeyHolder;
-
+    private String baseURL = "https://www.okx.com";
     public Trade(){}
-    public String placeOrder(Map<String,Object> orderMap,boolean isSimluate) throws IOException {
-        String API_URL = "https://aws.okx.com";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TradeRequestRetrofit service = retrofit.create(TradeRequestRetrofit.class);
-        String payload = new Gson().toJson(orderMap);
-        String timeStamp = Instant.now().toString();
-        Map<String,String> headers;
-
-        if(apiKeyHolder.getAutorizationMethod().equals(AutorizationMethod.APIKeyPair)){
-            String sign = SignatureGenerator.Generate(timeStamp,"POST",payload,"/api/v5/trade/order",apiKeyHolder.getSecretKey());
-            headers = headerMapBuilder.build(apiKeyHolder.getApiKey(),sign,timeStamp, apiKeyHolder.getPassPhrase(),isSimluate);
-            Call<HashMap<String,Object>> orderCall = service.placeOrder(headers,orderMap);
-            Response<HashMap<String,Object>> response= orderCall.execute();
-            Request req= orderCall.request();
-            System.out.println(req);
-            if(response.isSuccessful()){
-                return response.body().toString();
-            }
-            return response.errorBody().string();
-        }
-        if(apiKeyHolder.getAutorizationMethod().equals(AutorizationMethod.AccessToken)){
-            headers =headerMapBuilder.build(apiKeyHolder.getAccessToken(),isSimluate);
-            Call<HashMap<String,Object>> orderCall = service.placeOrder(headers,orderMap);
-            Request req= orderCall.request();
-            System.out.println(req);
-            Response<HashMap<String,Object>> response= orderCall.execute();
-            if(response.isSuccessful()){
-                return response.body().toString();
-            }
-            return response.errorBody().string();
-
-        }
-        return "Err";
+    public Map<String,Object> placeOrder(APIRequestPayload apiRequestPayload,boolean isSimluate) throws IOException {
+        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/trade/order",apiRequestPayload,isSimluate);
+        return  result;
     }
 
     public APIKeyHolder getApiKeyHolder() {
@@ -75,5 +44,8 @@ public class Trade {
         this.apiKeyHolder = apiKeyHolder;
     }
 
+    public String placeOrderBatch(List<Map<String,Object>> ordersList,boolean isSimluate){
+        return  "";
+    }
 
 }

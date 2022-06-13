@@ -9,9 +9,13 @@ import java.util.Map;
 public class Asset {
     String APIURL = "https://www.okx.com";
     static String GET = "GET";
+    APIKeyHolder apiKeyHolder;
+    public Asset(APIKeyHolder apiKeyHolder){
+        this.apiKeyHolder = apiKeyHolder;
+    }
 
     // 获取账号余额
-    public Map getAccountBalance(APIKeyHolder apiKeyHolder) {
+    public Map getAccountBalance() {
         APIRequestPayload param = () -> "{}";
         CommonAPICaller<APIRequestPayload, LinkedTreeMap> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
         LinkedTreeMap r;
@@ -24,7 +28,7 @@ public class Asset {
     }
 
     // 获取账号持仓
-    public Map getAccountPosition(APIKeyHolder apiKeyHolder) {
+    public Map getAccountPosition() {
         APIRequestPayload param = () -> "{}";
         CommonAPICaller<APIRequestPayload, LinkedTreeMap> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
         LinkedTreeMap r;

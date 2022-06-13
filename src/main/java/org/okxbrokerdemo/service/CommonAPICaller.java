@@ -13,6 +13,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.Map;
@@ -21,6 +23,7 @@ public class CommonAPICaller<E extends APIRequestPayload,R>  {
     private Retrofit retrofit;
     private CommonRequestRetrofit requestHandler;
 
+    private Class<R> myType;
     private APIKeyHolder apiKeyHolder;
 
     public CommonAPICaller(String baseUrl,APIKeyHolder apiKeyHolder){
@@ -30,10 +33,23 @@ public class CommonAPICaller<E extends APIRequestPayload,R>  {
        // Class cls = HashMap.class;
     }
 
+    public R getReturnTypes() {
+        Method method = null;
+        try {
+            method = this.getClass().getMethod("getReturnTypes");
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        Type returnParam = method.getGenericReturnType();
+
+        return null;
+    }
     public R requestAPI(String method,String path,E element,boolean isSimluate) throws IOException {
         String payload = element.getPayLoadJson();
         String timeStamp = Instant.now().toString();
         Map<String,String> headers;
+
+
         Type retTyp = new TypeToken<R>() { }.getType();
         if(apiKeyHolder.getAutorizationMethod().equals(AutorizationMethod.APIKeyPair) && method.equals("POST")){
             String sign = SignatureGenerator.Generate(timeStamp,method,payload,path,apiKeyHolder.getSecretKey());

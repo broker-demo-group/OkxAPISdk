@@ -9,6 +9,11 @@ import java.util.Map;
 public class AssetConvert {
     String APIURL = "https://www.okx.com";
 
+    APIKeyHolder apiKeyHolder;
+    public AssetConvert(APIKeyHolder apiKeyHolder){
+        this.apiKeyHolder = apiKeyHolder;
+    }
+
     // 获取闪兑币种列表
     public Map getConvertCurrencies(APIKeyHolder apiKeyHolder) {
         APIRequestPayload e = () -> "{}";
