@@ -3,7 +3,7 @@ package org.okxbrokerdemo.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class headerMapBuilder {
+public class HeaderMapBuilder {
     /**
      * OK-ACCESS-KEY字符串类型的APIKey。
      *
@@ -21,6 +21,7 @@ public class headerMapBuilder {
         headerMap.put("OK-ACCESS-SIGN",sign);
         headerMap.put("OK-ACCESS-TIMESTAMP",timeStamp);
         headerMap.put("OK-ACCESS-PASSPHRASE",passPhrase);
+        headerMap.put("Content-Type", "application/json");
         if(isSimluate){
             headerMap.put("x-simulated-trading","1");
         }
