@@ -48,8 +48,6 @@ public class CommonAPICaller<E extends APIRequestPayload,R>  {
         String payload = element.getPayLoadJson();
         String timeStamp = Instant.now().toString();
         Map<String,String> headers;
-
-
         Type retTyp = new TypeToken<R>() { }.getType();
         if(apiKeyHolder.getAutorizationMethod().equals(AutorizationMethod.APIKeyPair) && method.equals("POST")){
             String sign = SignatureGenerator.Generate(timeStamp,method,payload,path,apiKeyHolder.getSecretKey());
