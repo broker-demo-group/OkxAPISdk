@@ -1,9 +1,7 @@
 package org.okxbrokerdemo;
 
 
-import org.okxbrokerdemo.service.Asset;
-import org.okxbrokerdemo.service.AssetConvert;
-import org.okxbrokerdemo.service.Trade;
+import org.okxbrokerdemo.service.*;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
 public class Client {
@@ -11,6 +9,26 @@ public class Client {
     APIKeyHolder apiKeyHolder;
     Trade trade;
     Asset asset;
+
+    Account account;
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
+    }
+
+    SubAccount subAccount;
 
     AssetConvert assetConvert;
     public Asset getAsset() {

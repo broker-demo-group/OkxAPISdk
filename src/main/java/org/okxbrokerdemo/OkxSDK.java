@@ -1,9 +1,7 @@
 package org.okxbrokerdemo;
 
 
-import org.okxbrokerdemo.service.Asset;
-import org.okxbrokerdemo.service.AssetConvert;
-import org.okxbrokerdemo.service.Trade;
+import org.okxbrokerdemo.service.*;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
 public class OkxSDK {
@@ -19,8 +17,16 @@ public class OkxSDK {
         AssetConvert assetConvert = new AssetConvert(apiKeyHolder);
         client.setAsset(asset);
         client.setAssetConvert(assetConvert);
+        Account account = new Account();
+        account.setApiKeyHolder(apiKeyHolder);
+        SubAccount subAccount = new SubAccount();
+        subAccount.setApiKeyHolder(apiKeyHolder);
+        client.setAccount(account);
+        client.setSubAccount(subAccount);
         return client;
     }
+
+
 
     public static Client getClient(String apiKey,String secertKey,String passPhrase){
         Client client= new Client();
