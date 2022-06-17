@@ -1,6 +1,5 @@
 package org.okxbrokerdemo.service;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.junit.jupiter.api.Test;
 import org.okxbrokerdemo.service.entry.ParamMap;
@@ -9,13 +8,12 @@ import org.okxbrokerdemo.utils.APIKeyHolder;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author: bowen
  * @description:
  * @date: 2022/6/17  6:31 AM
  **/
-class PublicTest {
+class PublicServiceTest {
 
 //    String URL = "https://www.okx.com";
 //    boolean isSimulate = true;
@@ -24,7 +22,7 @@ class PublicTest {
         apiKeyHolder.init("","","");
     }
 
-    Public publicService = new Public(apiKeyHolder);
+    PublicService publicService = new PublicService(apiKeyHolder);
 
     @Test
     void getInstruments() {

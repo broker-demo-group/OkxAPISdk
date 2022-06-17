@@ -29,6 +29,13 @@ public class CommonService {
         commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder );
     }
 
+    public CommonService(APIKeyHolder apiKeyHolder) {
+        this.APIUrl = "https://www.okx.com";
+        this.isSimulate = true;
+        this.apiKeyHolder = apiKeyHolder;
+        commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder );
+    }
+
     public <R> R postExecute(APIRequestPayload param, String path, Class<R> clazz){
         return  execute(param,"POST",path,clazz);
     }
@@ -51,7 +58,6 @@ public class CommonService {
 
         try{
             JsonObject jsonObject = this.commonAPICaller.requestAPI(method,path,param,isSimulate, JsonObject.class);
-            System.out.println("execute:"+jsonObject);
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
             // TODO 这里本来是考虑list范型的情况，现在此方法不会返回List范型，需要修改
             if(dataList.size() == 0) {
@@ -60,7 +66,6 @@ public class CommonService {
                 JsonElement data = dataList.get(0);
                 return new Gson().fromJson(data,clazz);
             }else{
-
                 return new Gson().fromJson(dataList,clazz);
             }
         } catch (IOException | InstantiationException | IllegalAccessException e) {
@@ -71,7 +76,6 @@ public class CommonService {
     private <T> List<T> listExecute(APIRequestPayload param, String method, String path, Class<T> clazz) {
         try {
             JsonObject jsonObject = this.commonAPICaller.requestAPI(method, path, param, isSimulate, JsonObject.class);
-            System.out.println("listExecute:"+jsonObject);
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
 
             if (dataList.size() == 0) {

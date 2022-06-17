@@ -1,156 +1,102 @@
 package org.okxbrokerdemo.service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
+import org.okxbrokerdemo.service.entry.ParamMap;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author: bowen
  * @description:
  * @date: 2022/6/13  4:56 PM
  **/
 public class AssetConvert {
-    String APIURL = "https://www.okx.com";
+    String APIUrl = "https://www.okx.com";
     public boolean isSimulate = true;
     APIKeyHolder apiKeyHolder;
+    CommonAPICaller<APIRequestPayload,JsonObject> commonAPICaller;
+
     public AssetConvert(APIKeyHolder apiKeyHolder){
         this.apiKeyHolder = apiKeyHolder;
-    }
-
-    public JsonObject getConvertCurrencies(){
-        return  getConvertCurrencies0();
-
-    }
-
-    public <T> T getConvertCurrencies(Class<T> clazz){
-        JsonObject body = getConvertCurrencies0();
-        JsonElement data = body.get("data").getAsJsonArray().get(0);
-        return  new Gson().fromJson(data,clazz);
+        commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder );
     }
     // 获取闪兑币种列表
-    public JsonObject getConvertCurrencies0() {
-        APIRequestPayload e = () -> "{}";
-        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
-        JsonObject r;
-        try {
-            r = commonAPICaller.requestAPI("GET", "/api/v5/asset/currencies", e, true,JsonObject.class);
-        } catch (Exception err) {
-            throw new RuntimeException(err);
-        }
-        return r;
-    }
-
-
-    public JsonObject getConvertCurrencyPair(APIRequestPayload param){
-        return  getConvertCurrencyPair0(param);
-
+    public <T> List<T> getConvertCurrencies(APIRequestPayload param,Class<T> clazz){
+        ParamMap paramMap = new ParamMap();
+        return listExecute(paramMap,"GET","/api/v5/asset/convert/currencies",clazz);
     }
 
     public <T> T getConvertCurrencyPair(APIRequestPayload param,Class<T> clazz){
-        JsonObject body = getConvertCurrencyPair0(param);
-        JsonElement data = body.get("data").getAsJsonArray().get(0);
-        return  new Gson().fromJson(data,clazz);
-    }
-
-    //获取闪兑币对信息
-    public JsonObject getConvertCurrencyPair0( APIRequestPayload param) {
-        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
-        JsonObject r;
-
-        try {
-            r = commonAPICaller.requestAPI("GET",
-                    "/api/v5/asset/convert/currency-pair", param, isSimulate,JsonObject.class);
-        } catch (Exception err) {
-            throw new RuntimeException(err);
-        }
-        return r;
-    }
-    public JsonObject convertEstimateQuote(APIRequestPayload param){
-        return  convertEstimateQuote0(param);
-
-    }
-
-    public <T> T convertEstimateQuote(APIRequestPayload param,Class<T> clazz){
-        JsonObject body = convertEstimateQuote0(param);
-        JsonElement data = body.get("data").getAsJsonArray().get(0);
-        return  new Gson().fromJson(data,clazz);
+        return execute(param,"GET","/api/v5/asset/convert/currency-pair",clazz);
     }
 
     //闪兑预估询价
-    private  JsonObject convertEstimateQuote0(APIRequestPayload param) {
-        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
-
-        JsonObject r;
-
-        try {
-            r = commonAPICaller.requestAPI("POST",
-                    "/api/v5/asset/convert/estimate-quote", param, isSimulate,JsonObject.class);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        return r;
+    public <T> T convertEstimateQuote(APIRequestPayload param,Class<T> clazz){
+        return execute(param,"POST","/api/v5/asset/convert/estimate-quote",clazz);
     }
 
-
-    public JsonObject convertTrade(APIRequestPayload param){
-        return  convertTrade0(param);
-
-    }
 
     public <T> T convertTrade(APIRequestPayload param,Class<T> clazz){
-        JsonObject body = this.convertTrade0(param);
-        JsonElement data = body.get("data").getAsJsonArray().get(0);
-        return  new Gson().fromJson(data,clazz);
+        return execute(param,"POST","/api/v5/asset/convert/trade",clazz);
     }
 
-    public JsonObject convertTrade0(APIRequestPayload param){
-        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
-
-        JsonObject r;
-
-        try {
-            r = commonAPICaller.requestAPI("POST",
-                    "/api/v5/asset/convert/trade", param, isSimulate,JsonObject.class);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        return r;
+    public <T> List<T> convertHistory(APIRequestPayload param,Class<T> clazz){
+        return listExecute(param,"GET","/api/v5/asset/convert/history",clazz);
     }
 
-    public JsonObject convertHistory(APIRequestPayload param){
-        return  this.convertHistory0(param);
-
-    }
-
-    public <T> T convertHistory(APIRequestPayload param,Class<T> clazz){
-        JsonObject body = this.convertHistory0(param);
-        JsonElement data = body.get("data").getAsJsonArray().get(0);
-        return  new Gson().fromJson(data,clazz);
-    }
-
-    public JsonObject convertHistory0(APIRequestPayload param){
-        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
-
-        JsonObject r;
-
-        try {
-            r = commonAPICaller.requestAPI("GET",
-                    "/api/v5/asset/convert/history", param, isSimulate,JsonObject.class);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        return r;
-
-
-    }
     public void setSimulate(boolean simulate) {
         isSimulate = simulate;
     }
 
 
+
+
+
+    private <R> R execute(APIRequestPayload param, String method,String path, Class<R> clazz){
+        /**
+         * 这里默认JsonObject 的格式为「"code":"1","data" :"","msg":"" 」
+         * todo 后续需要考虑 返回异常码的情况
+         * */
+        try{
+            JsonObject jsonObject = this.commonAPICaller.requestAPI(method,path,param,isSimulate, JsonObject.class);
+            JsonArray dataList = jsonObject.get("data").getAsJsonArray();
+
+            if(dataList.size() == 0) {
+                return clazz.newInstance();
+            }else if(dataList.size() == 1){
+                JsonElement data = List.class.isAssignableFrom(clazz)? dataList:dataList.get(0);
+                return new Gson().fromJson(data,clazz);
+            }else{
+                return new Gson().fromJson(dataList,clazz);
+            }
+        } catch (IOException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private <T> List<T> listExecute(APIRequestPayload param, String method, String path, Class<T> clazz) {
+        try {
+            JsonObject jsonObject = this.commonAPICaller.requestAPI(method, path, param, isSimulate, JsonObject.class);
+            JsonArray dataList = jsonObject.get("data").getAsJsonArray();
+
+            if (dataList.size() == 0) {
+                return new ArrayList<>();
+            } else {
+                List<T> list = new ArrayList<>();
+                for (final JsonElement element : dataList) {
+                    list.add(new Gson().fromJson(element, clazz));
+                }
+                return list;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
 
 }

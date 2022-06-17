@@ -1,12 +1,13 @@
 package org.okxbrokerdemo.service;
 
 import com.google.gson.JsonObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.okxbrokerdemo.Client;
 import org.okxbrokerdemo.OkxSDK;
 import org.okxbrokerdemo.service.entry.ParamMap;
 import org.okxbrokerdemo.service.entry.Quote;
+
+import java.util.List;
 
 /**
  * @author: bowen
@@ -24,44 +25,44 @@ class AssetConvertTest {
 
     @Test
     void getConvertCurrencies() {
-        JsonObject accountBalance = client.getAssetConvert().getConvertCurrencies();
+        List<JsonObject> accountBalance = client.getAssetConvert().getConvertCurrencies(()->"{}",JsonObject.class);
         System.out.println(accountBalance);
     }
 
     @Test
     void getConvertCurrencyPair() {
         ParamMap param = new ParamMap();
-        param.add("fromCcy","USDT");
-        param.add("toCcy","ETH");
-        JsonObject convertCurrencyPair = client.getAssetConvert().getConvertCurrencyPair(param);
+        param.add("fromCcy","BTC");
+        param.add("toCcy","USDT");
+        JsonObject convertCurrencyPair = client.getAssetConvert().getConvertCurrencyPair(param,JsonObject.class);
         System.out.println(convertCurrencyPair);
     }
 
     @Test
     void convertEstimateQuote() {
         ParamMap param = new ParamMap();
-        param.add("baseCcy", "ETH");
+        param.add("baseCcy", "BTC");
         param.add("quoteCcy", "USDT");
-        param.add("side", "buy");
-        param.add("rfqSz", "1");
-        param.add("rfqSzCcy", "USDT");
+        param.add("side", "sell");
+        param.add("rfqSz", "0.5");
+        param.add("rfqSzCcy", "BTC");
 //        param.add("clQReqId", "greedisisgood");
 
         Quote quote = client.getAssetConvert().convertEstimateQuote(param,Quote.class);
         System.out.println(quote);
 //        JsonObject
-        JsonObject jsonObject = client.getAssetConvert().convertEstimateQuote(param);
+        JsonObject jsonObject = client.getAssetConvert().convertEstimateQuote(param,JsonObject.class);
         System.out.println(jsonObject);
     }
 
     Quote getQuote(){
         ParamMap param = new ParamMap();
-        param.add("baseCcy", "ETH");
+        param.add("baseCcy", "BTC");
         param.add("quoteCcy", "USDT");
-        param.add("side", "buy");
-        param.add("rfqSz", "5");
-        param.add("rfqSzCcy", "USDT");
-//        param.add("clQReqId", "whosyourdaddy20221");
+        param.add("side", "sell");
+        param.add("rfqSz", "0.01");
+        param.add("rfqSzCcy", "BTC");
+//        param.add("clQReqId", "whosyourdaddy");
         Quote quote = client.getAssetConvert().convertEstimateQuote(param,Quote.class);
         System.out.println(quote);
         return quote;
@@ -79,13 +80,13 @@ class AssetConvertTest {
 //        param.add("clQReqId", quote.getClQReqId());
 
         System.out.println(param.getPayLoadJson());
-        JsonObject r = client.getAssetConvert().convertTrade(param);
+        JsonObject r = client.getAssetConvert().convertTrade(param,JsonObject.class);
         System.out.println(r);
     }
 
     @Test
     void convertHistory() {
-        JsonObject r = client.getAssetConvert().convertHistory(new ParamMap());
+        List<JsonObject> r = client.getAssetConvert().convertHistory(()->"{}",JsonObject.class);
         System.out.println(r);
     }
 }

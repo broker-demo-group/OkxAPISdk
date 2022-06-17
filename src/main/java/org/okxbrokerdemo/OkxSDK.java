@@ -23,6 +23,10 @@ public class OkxSDK {
         subAccount.setApiKeyHolder(apiKeyHolder);
         client.setAccount(account);
         client.setSubAccount(subAccount);
+
+        client.setPublicService(new PublicService(apiKeyHolder));
+        client.setMarket(new Market(apiKeyHolder));
+        client.setCommonService(new CommonService(apiKeyHolder));
         return client;
     }
 

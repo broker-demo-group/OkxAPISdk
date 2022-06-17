@@ -14,19 +14,21 @@ import java.util.List;
  * @description:
  * @date: 2022/6/17  6:21 AM
  **/
-public class Public {
+public class PublicService {
 
     String APIUrl ;
     public boolean isSimulate;
     APIKeyHolder apiKeyHolder;
     CommonAPICaller<APIRequestPayload,JsonObject> commonAPICaller;
 
-    public Public( APIKeyHolder apiKeyHolder) {
+    public PublicService(APIKeyHolder apiKeyHolder) {
         this.APIUrl = "https://www.okx.com";
         this.isSimulate = true;
         this.apiKeyHolder = apiKeyHolder;
         commonAPICaller = new CommonAPICaller<>(this.APIUrl, this.apiKeyHolder);
     }
+
+
 
     public <T> List<T> getInstruments(APIRequestPayload param, Class<T> clazz){
         return  listExecute(param,"GET","/api/v5/public/instruments",clazz);
@@ -104,7 +106,6 @@ public class Public {
 
         try{
             JsonObject jsonObject = this.commonAPICaller.requestAPI(method,path,param,isSimulate, JsonObject.class);
-            System.out.println("execute:"+jsonObject);
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
             // TODO 这里本来是考虑list范型的情况，现在此方法不会返回List范型，需要修改
             if(dataList.size() == 0) {
@@ -117,6 +118,7 @@ public class Public {
                 return new Gson().fromJson(dataList,clazz);
             }
         } catch (IOException | InstantiationException | IllegalAccessException e) {
+
             throw new RuntimeException(e);
         }
     }
@@ -124,7 +126,6 @@ public class Public {
     private <T> List<T> listExecute(APIRequestPayload param, String method, String path, Class<T> clazz) {
         try {
             JsonObject jsonObject = this.commonAPICaller.requestAPI(method, path, param, isSimulate, JsonObject.class);
-            System.out.println("listExecute:"+jsonObject);
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
 
             if (dataList.size() == 0) {

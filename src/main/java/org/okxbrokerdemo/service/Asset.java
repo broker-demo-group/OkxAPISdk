@@ -1,81 +1,117 @@
 package org.okxbrokerdemo.service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
+import org.okxbrokerdemo.service.entry.ParamMap;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
 import java.io.IOException;
-import java.util.Map;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author: bowen
  * @description:
  * @date: 2022/6/13  4:55 PM
  **/
 public class Asset {
-    String APIURL = "https://www.okx.com";
-    static String GET = "GET";
-    static String POST = "POST";
+    String APIUrl = "https://www.okx.com";
+
     public boolean isSimulate = true;
     APIKeyHolder apiKeyHolder;
+    CommonAPICaller<APIRequestPayload,JsonObject> commonAPICaller;
     public Asset(APIKeyHolder apiKeyHolder){
         this.apiKeyHolder = apiKeyHolder;
+        commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder );
     }
 
+    public <T> List<T> getCurrencies(Class<T> clazz) {
+        return listExecute(() -> "{}", "GET", "/api/v5/asset/currencies", clazz);
+    }
     /**
-     *
-     * 获取账号余额
+     * 获取余额
      */
-    public JsonObject getAccountBalance(){
-        return  getAccountBalance0();
 
-    }
 
-    public <T> T getAccountBalance(Class<T> clazz){
-        JsonObject body = getAccountBalance0();
-        JsonElement data = body.get("data").getAsJsonArray().get(0);
-        return  new Gson().fromJson(data,clazz);
-    }
-
-    public JsonObject getAccountBalance0() {
-        APIRequestPayload param = () -> "{}";
-        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
-        JsonObject r;
-        try {
-            r = commonAPICaller.requestAPI(GET, "/api/v5/account/balance", param, isSimulate,JsonObject.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return r;
-    }
-
-    public JsonObject getAccountPosition(){
-        return  getAccountPosition0();
-
-    }
-
-    public <T> T getAccountPosition(Class<T> clazz){
-        JsonObject body = getAccountPosition0();
-        JsonElement data = body.get("data").getAsJsonArray().get(0);
-        return  new Gson().fromJson(data,clazz);
+    public <T> List<T> getAssetBalance(APIRequestPayload param, Class<T> clazz) {
+        return listExecute(param, "GET", "/api/v5/asset/balances", clazz);
     }
     /**
      *  获取账号持仓
      */
-    public JsonObject getAccountPosition0() {
-        APIRequestPayload param = () -> "{}";
-        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller = new CommonAPICaller<>(APIURL, apiKeyHolder);
-        JsonObject r;
-        try {
-            r = commonAPICaller.requestAPI(GET, "/api/v5/account/positions", param, isSimulate,JsonObject.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return r;
+    public <T> T getAccountPosition(Class<T> clazz){
+        return execute(()->"{}","GET","/api/v5/account/positions",clazz);
+    }
+    public <T> T getAssetValuation(APIRequestPayload param,Class<T> clazz){
+        return execute(param,"GET","/api/v5/asset/asset-valuation",clazz);
+    }
+
+    public <T> T getAssetValuation(Class<T> clazz){
+        ParamMap param = new ParamMap();
+        param.add("ccy","BTC");
+        return execute(param,"GET","/api/v5/asset/asset-valuation",clazz);
+    }
+
+    public <T> T assetTransfer(APIRequestPayload param, Class<T> clazz){
+        return execute(param,"POST","/api/v5/asset/transfer",clazz);
+    }
+
+    public <T> T getAssetTransferState(APIRequestPayload param, Class<T> clazz){
+        return execute(param,"GET","/api/v5/asset/transfer-state",clazz);
+    }
+
+    public <T> List<T> getAssetBills(APIRequestPayload param, Class<T> clazz){
+        return listExecute(param,"GET","/api/v5/asset/bills",clazz);
     }
 
     public void setSimulate(boolean simulate) {
         isSimulate = simulate;
+    }
+    /**
+     * 这里默认JsonObject 的格式为「"code":"1","data" :"","msg":"" 」
+     * todo 后续需要考虑 返回异常码的情况
+     * */
+    private <T> T execute(APIRequestPayload param, String method, String path, Class<T> clazz){
+        try{
+            JsonObject jsonObject = this.commonAPICaller.requestAPI(method,path,param,isSimulate, JsonObject.class);
+            System.out.println("execute:"+jsonObject);
+            JsonElement dataElement = jsonObject.get("data");
+
+            JsonArray dataList = jsonObject.get("data").getAsJsonArray();
+            // TODO 这里本来是考虑list范型的情况，现在此方法不会返回List范型，需要修改
+            if(dataList.size() == 0) {
+                return clazz.newInstance();
+            }else if(dataList.size() == 1){
+                JsonElement data = dataList.get(0);
+                return new Gson().fromJson(data,clazz);
+            }else{
+                return new Gson().fromJson(dataList,clazz);
+            }
+        } catch (IOException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private <T> List<T> listExecute(APIRequestPayload param, String method, String path, Class<T> clazz) {
+        try {
+            JsonObject jsonObject = this.commonAPICaller.requestAPI(method, path, param, isSimulate, JsonObject.class);
+            System.out.println("listExecute:"+jsonObject);
+            JsonArray dataList = jsonObject.get("data").getAsJsonArray();
+
+            if (dataList.size() == 0) {
+                return new ArrayList<>();
+            } else {
+                List<T> list = new ArrayList<>();
+                for (final JsonElement element : dataList) {
+                    list.add(new Gson().fromJson(element, clazz));
+                }
+                return list;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 }
