@@ -1,14 +1,18 @@
 package org.okxbrokerdemo.service;
 
 import com.google.gson.JsonObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.okxbrokerdemo.service.Entry.ParamMap;
-import org.okxbrokerdemo.service.Entry.Quote;
+import org.okxbrokerdemo.service.entry.AssetBalance;
+import org.okxbrokerdemo.service.entry.ParamMap;
+import org.okxbrokerdemo.service.entry.Quote;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import java.util.List;
+/**
+ * @author: bowen
+ * @description:
+ * @date: 2022/6/14  9:40 AM
+ **/
 class CommonServiceTest {
     CommonService commonService;
     {
@@ -21,7 +25,7 @@ class CommonServiceTest {
 
 
     @Test
-    void postCall() {
+    void postExecute() {
         ParamMap param = new ParamMap();
         param.add("baseCcy", "ETH");
         param.add("quoteCcy", "USDT");
@@ -33,25 +37,39 @@ class CommonServiceTest {
         String path = "/api/v5/asset/convert/estimate-quote";
 
         // Param -> Open API -> JsonObject ->POJO
-        Quote quote = commonService.postCall(param,path,Quote.class);
+        Quote quote = commonService.postExecute(param,path,Quote.class);
         System.out.println(quote);
 
 
         // Param -> Open API -> JsonObject
-        JsonObject jsonObject =  commonService.postCall(param,path);
+        JsonObject jsonObject =  commonService.postExecute(param,path,JsonObject.class);
         System.out.println(jsonObject);
     }
 
     @Test
-    void getCall() {
+    void getExecute(){
+        String path = "/api/v5/public/time";
+        JsonObject result = commonService.getExecute(new ParamMap(), path,JsonObject.class);
+    }
+
+    @Test
+    void postListExecute() {
+    }
+
+    @Test
+    void getListExecute() {
         ParamMap param = new ParamMap();
 
 
         String path = "/api/v5/asset/convert/currencies";
+        // Param -> Open API -> List<JsonObject>
+        List<JsonObject> result =  commonService.getListExecute(param,path,JsonObject.class);
+        System.out.println(result);
 
-        // Param -> Open API -> JsonObject
-        JsonObject jsonObject =  commonService.getCall(param,path);
-        System.out.println(jsonObject);
+
+        path = "/api/v5/asset/balances";
+        //Param -> Open API -> List<T>
+        List<AssetBalance> AssetBalanceList = commonService.getListExecute(()->"{}",path, AssetBalance.class);
+        System.out.println(AssetBalanceList);
     }
-
 }
