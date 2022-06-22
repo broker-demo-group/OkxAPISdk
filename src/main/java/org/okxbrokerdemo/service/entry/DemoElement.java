@@ -1,7 +1,7 @@
-package org.okxbrokerdemo.utils;
+package org.okxbrokerdemo.service.entry;
 
 
-import org.okxbrokerdemo.service.APIRequestPayload;
+import org.okxbrokerdemo.service.entry.APIRequestPayload;
 
 public class DemoElement implements APIRequestPayload {
     @Override

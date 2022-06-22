@@ -1,4 +1,4 @@
-package org.okxbrokerdemo.utils;
+package org.okxbrokerdemo.security.utils;
 
 
 
@@ -32,12 +32,12 @@ public class SignatureGenerator {
             SecretKeySpec secret_key = new SecretKeySpec(secertKey.getBytes(), "HmacSHA256");
             hmac_sha256.init(secret_key);
             result = Base64.encodeBase64String(hmac_sha256.doFinal(signStr.getBytes()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        } catch (InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
         return  result;
     }
+
+
 
 }

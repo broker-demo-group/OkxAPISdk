@@ -1,6 +1,7 @@
 package org.okxbrokerdemo.service;
 
-import org.okxbrokerdemo.utils.APIKeyHolder;
+import org.okxbrokerdemo.service.entry.APIRequestPayload;
+import org.okxbrokerdemo.APIKeyHolder;
 
 import java.io.IOException;
 import java.util.Map;
@@ -100,6 +101,4 @@ public class BulkTrade {
         Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/rfq/public-trades",apiRequestPayload,isSimluate);
         return  result;
     }
-
-
 }

@@ -3,17 +3,17 @@ package org.okxbrokerdemo.service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.okxbrokerdemo.utils.APIKeyHolder;
-import org.okxbrokerdemo.utils.AutorizationMethod;
-import org.okxbrokerdemo.utils.SignatureGenerator;
-import org.okxbrokerdemo.utils.HeaderMapBuilder;
+import org.okxbrokerdemo.service.entry.APIRequestPayload;
+import org.okxbrokerdemo.APIKeyHolder;
+import org.okxbrokerdemo.security.entry.AutorizationMethod;
+import org.okxbrokerdemo.security.utils.SignatureGenerator;
+import org.okxbrokerdemo.security.HeaderMapBuilder;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.Map;
@@ -25,25 +25,15 @@ public class CommonAPICaller<E extends APIRequestPayload,R>  {
     private Class<R> myType;
     private APIKeyHolder apiKeyHolder;
 
-    public CommonAPICaller(String baseUrl,APIKeyHolder apiKeyHolder){
-        retrofit = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(ScalarsConverterFactory.create()).build();
 
+    public CommonAPICaller(String baseUrl,APIKeyHolder apiKeyHolder){
+        retrofit =
+                new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(ScalarsConverterFactory.create()).build();
+        
         requestHandler = retrofit.create(CommonRequestRetrofit.class);
         this.apiKeyHolder = apiKeyHolder;
-       // Class cls = HashMap.class;
     }
 
-    public R getReturnTypes() {
-        Method method = null;
-        try {
-            method = this.getClass().getMethod("getReturnTypes");
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        Type returnParam = method.getGenericReturnType();
-
-        return null;
-    }
 
     public R requestAPI(String method,String path,E element,boolean isSimluate) throws IOException {
         String payload = element.getPayLoadJson();
@@ -127,13 +117,13 @@ public class CommonAPICaller<E extends APIRequestPayload,R>  {
         return null;
     }
 
-    public R requestAPI(String method,String path,E element,boolean isSimluate, Class<R> clazz) throws IOException {
+    public R requestAPI(String method,String path,E element,boolean isSimulate, Class<R> clazz) throws IOException {
         String payload = element.getPayLoadJson();
         String timeStamp = Instant.now().toString();
         Map<String, String> headers;
         if (apiKeyHolder.getAutorizationMethod().equals(AutorizationMethod.APIKeyPair) && "POST".equals(method)) {
             String sign = SignatureGenerator.Generate(timeStamp, method, payload, path, apiKeyHolder.getSecretKey());
-            headers = HeaderMapBuilder.build(apiKeyHolder.getApiKey(), sign, timeStamp, apiKeyHolder.getPassPhrase(), isSimluate);
+            headers = HeaderMapBuilder.build(apiKeyHolder.getApiKey(), sign, timeStamp, apiKeyHolder.getPassPhrase(), isSimulate);
             Call<String> requestCall = requestHandler.commonPostRequest(path, headers, payload);
             Response<String> response = requestCall.execute();
 
@@ -156,7 +146,7 @@ public class CommonAPICaller<E extends APIRequestPayload,R>  {
                 path = path.substring(0,path.length() - 1);
             }
             String sign = SignatureGenerator.Generate(timeStamp,method,"",path,apiKeyHolder.getSecretKey());
-            headers = HeaderMapBuilder.build(apiKeyHolder.getApiKey(),sign,timeStamp, apiKeyHolder.getPassPhrase(),isSimluate);
+            headers = HeaderMapBuilder.build(apiKeyHolder.getApiKey(),sign,timeStamp, apiKeyHolder.getPassPhrase(),isSimulate);
             Call<String> requestCall = requestHandler.commonGetRequest(path,headers);
             Response<String> response= requestCall.execute();
             if(response.isSuccessful()){

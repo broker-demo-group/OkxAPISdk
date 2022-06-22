@@ -4,12 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
+import org.okxbrokerdemo.service.entry.APIRequestPayload;
 import org.okxbrokerdemo.service.entry.ParamMap;
-import org.okxbrokerdemo.utils.APIKeyHolder;
+import org.okxbrokerdemo.APIKeyHolder;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +31,6 @@ public class Asset {
     public <T> List<T> getCurrencies(Class<T> clazz) {
         return listExecute(() -> "{}", "GET", "/api/v5/asset/currencies", clazz);
     }
-    /**
-     * 获取余额
-     */
 
 
     public <T> List<T> getAssetBalance(APIRequestPayload param, Class<T> clazz) {

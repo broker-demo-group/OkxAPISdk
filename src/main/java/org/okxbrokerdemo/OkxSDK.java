@@ -2,11 +2,11 @@ package org.okxbrokerdemo;
 
 
 import org.okxbrokerdemo.service.*;
-import org.okxbrokerdemo.utils.APIKeyHolder;
 
 public class OkxSDK {
 
     public OkxSDK(){
+
     }
 
     public static Client buildClient(APIKeyHolder apiKeyHolder, Client client){

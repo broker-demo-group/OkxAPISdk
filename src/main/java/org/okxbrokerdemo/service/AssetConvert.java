@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.okxbrokerdemo.service.entry.APIRequestPayload;
 import org.okxbrokerdemo.service.entry.ParamMap;
-import org.okxbrokerdemo.utils.APIKeyHolder;
+import org.okxbrokerdemo.APIKeyHolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,13 +27,21 @@ public class AssetConvert {
         this.apiKeyHolder = apiKeyHolder;
         commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder );
     }
+
+    public AssetConvert(String APIUrl, boolean isSimulate, APIKeyHolder apiKeyHolder) {
+        this.APIUrl = APIUrl;
+        this.isSimulate = isSimulate;
+        this.apiKeyHolder = apiKeyHolder;
+        commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder);
+    }
+
     // 获取闪兑币种列表
     public <T> List<T> getConvertCurrencies(APIRequestPayload param,Class<T> clazz){
         ParamMap paramMap = new ParamMap();
         return listExecute(paramMap,"GET","/api/v5/asset/convert/currencies",clazz);
     }
 
-    public <T> T getConvertCurrencyPair(APIRequestPayload param,Class<T> clazz){
+    public <T> T getConvertCurrencyPair(APIRequestPayload param, Class<T> clazz){
         return execute(param,"GET","/api/v5/asset/convert/currency-pair",clazz);
     }
 
@@ -65,6 +74,7 @@ public class AssetConvert {
          * */
         try{
             JsonObject jsonObject = this.commonAPICaller.requestAPI(method,path,param,isSimulate, JsonObject.class);
+            System.out.println(jsonObject);
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
 
             if(dataList.size() == 0) {

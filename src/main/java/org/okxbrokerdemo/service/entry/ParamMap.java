@@ -2,7 +2,6 @@ package org.okxbrokerdemo.service.entry;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.okxbrokerdemo.service.APIRequestPayload;
 
 import java.util.HashMap;
 import java.util.Map;

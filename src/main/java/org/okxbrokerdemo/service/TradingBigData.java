@@ -1,6 +1,7 @@
 package org.okxbrokerdemo.service;
 
-import org.okxbrokerdemo.utils.APIKeyHolder;
+import org.okxbrokerdemo.service.entry.APIRequestPayload;
+import org.okxbrokerdemo.APIKeyHolder;
 
 import java.io.IOException;
 import java.util.Map;

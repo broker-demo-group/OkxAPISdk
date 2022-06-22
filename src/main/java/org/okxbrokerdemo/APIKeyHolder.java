@@ -1,5 +1,7 @@
-package org.okxbrokerdemo.utils;
+package org.okxbrokerdemo;
 
+
+import org.okxbrokerdemo.security.entry.AutorizationMethod;
 
 public class APIKeyHolder {
     private String apiKey;
@@ -13,7 +15,14 @@ public class APIKeyHolder {
 
     }
 
-    public void init(String apiKey,String secertKey,String passPhrase){
+    public APIKeyHolder(String apiKey, String secretKey, String passPhrase) {
+        this.apiKey = apiKey;
+        this.secretKey = secretKey;
+        this.passPhrase = passPhrase;
+        autorizationMethod = AutorizationMethod.APIKeyPair;
+    }
+
+    public void init(String apiKey, String secertKey, String passPhrase){
         this.apiKey = apiKey;
         this.secretKey = secertKey;
         this.passPhrase = passPhrase;
