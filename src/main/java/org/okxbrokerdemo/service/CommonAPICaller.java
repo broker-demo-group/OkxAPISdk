@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import org.okxbrokerdemo.exception.OkxApiException;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 import org.okxbrokerdemo.utils.AutorizationMethod;
 import org.okxbrokerdemo.utils.SignatureGenerator;
@@ -174,10 +175,13 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
         return null;
     }
 
-    public <T> T execute(E param, String method, String path, Class<T> clazz) {
+    public <T> T execute(E param, String method, String path, Class<T> clazz)throws OkxApiException{
         try {
             JsonObject jsonObject = this.requestAPI(method, path, param, isSimulate, JsonObject.class);
-            System.out.println("execute:" + jsonObject);
+            System.out.println("execute:"+jsonObject);
+            if (!jsonObject.get("code").getAsString().equals("0")){
+                throw new OkxApiException(jsonObject.get("msg").getAsString(),jsonObject.get("code").getAsInt());
+            }
             JsonElement dataElement = jsonObject.get("data");
 
             if (!dataElement.isJsonArray()) {
@@ -186,7 +190,6 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
                 return new Gson().fromJson(dataElement, clazz);
             }
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
-            // TODO 这里本来是考虑list范型的情况，现在此方法不会返回List范型，需要修改
             if (dataList.size() == 0) {
                 return clazz.newInstance();
             } else if (dataList.size() == 1) {
@@ -207,7 +210,9 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
 
             JsonObject jsonObject = this.requestAPI(method, path, param, isSimulate, JsonObject.class);
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
-
+            if (!jsonObject.get("code").getAsString().equals("0")){
+                throw new OkxApiException(jsonObject.get("msg").getAsString(),jsonObject.get("code").getAsInt());
+            }
             if (dataList.size() == 0) {
                 return new ArrayList<>();
             } else {
