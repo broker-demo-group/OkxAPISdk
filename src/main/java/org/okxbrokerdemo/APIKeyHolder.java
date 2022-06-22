@@ -1,7 +1,7 @@
 package org.okxbrokerdemo;
 
 
-import org.okxbrokerdemo.security.entry.AutorizationMethod;
+import org.okxbrokerdemo.ApiService.entry.AutorizationMethod;
 
 public class APIKeyHolder {
     private String apiKey;

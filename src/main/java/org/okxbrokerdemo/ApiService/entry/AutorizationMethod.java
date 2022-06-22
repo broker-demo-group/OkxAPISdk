@@ -1,4 +1,4 @@
-package org.okxbrokerdemo.security.entry;
+package org.okxbrokerdemo.ApiService.entry;
 
 public enum AutorizationMethod {
     AccessToken,

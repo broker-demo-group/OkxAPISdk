@@ -1,6 +1,6 @@
 package org.okxbrokerdemo.ApiService;
 
-import org.okxbrokerdemo.service.entry.APIRequestPayload;
+import org.okxbrokerdemo.ApiService.entry.APIRequestPayload;
 
 import java.util.List;
 /**

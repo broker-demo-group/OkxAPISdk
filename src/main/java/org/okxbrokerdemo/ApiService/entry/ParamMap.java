@@ -1,10 +1,11 @@
-package org.okxbrokerdemo.service.entry;
+package org.okxbrokerdemo.ApiService.entry;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * @author: bowen
  * @description:
@@ -22,9 +23,9 @@ public class ParamMap implements APIRequestPayload {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         for (Map.Entry<String, String> e : param.entrySet()) {
-            sb.append("\""+e.getKey() + "\":\"" + e.getValue() + "\",");
+            sb.append("\"" + e.getKey() + "\":\"" + e.getValue() + "\",");
         }
-        if(sb.length()>1) {
+        if (sb.length() > 1) {
             sb.deleteCharAt(sb.lastIndexOf(","));
         }
         sb.append("}");

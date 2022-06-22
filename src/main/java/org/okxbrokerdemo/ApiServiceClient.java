@@ -8,8 +8,7 @@ import com.google.gson.JsonObject;
 import okhttp3.OkHttpClient;
 import org.okxbrokerdemo.ApiService.CommonRequest;
 import org.okxbrokerdemo.security.AutorizationIntercepter;
-import org.okxbrokerdemo.service.CommonAPICaller;
-import org.okxbrokerdemo.service.entry.APIRequestPayload;
+import org.okxbrokerdemo.ApiService.entry.APIRequestPayload;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -65,7 +64,6 @@ public class ApiServiceClient {
 
     public  <T> T execute(APIRequestPayload param, String method, String path, Class<T> clazz){
         try{
-
             JsonObject jsonObject = doRequest(param,method,path);
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
             if(dataList.size() == 0) {
@@ -104,7 +102,6 @@ public class ApiServiceClient {
         String payload = param.getPayLoadJson();
 
         JsonObject jsonPayload = new Gson().fromJson(payload,JsonObject.class);
-//        System.out.println("Json  :"+jsonPayload);
 
         Call<JsonObject> requestCall = "GET".equalsIgnoreCase(method)? commonRequest.getRequest(getPath(path,payload)):
                 commonRequest.postRequest(path,jsonPayload);
@@ -120,10 +117,10 @@ public class ApiServiceClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        System.out.println("doRequire:"+jsonObject);
         return jsonObject;
 
     }
+
     public static String getPath(String path,String payload){
         Map<String,Object> queryMap = new Gson().fromJson(payload,Map.class);
         StringBuilder stringBuilder  = new StringBuilder(path);

@@ -1,4 +1,4 @@
-package org.okxbrokerdemo.service.entry;
+package org.okxbrokerdemo.ApiService.entry;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
