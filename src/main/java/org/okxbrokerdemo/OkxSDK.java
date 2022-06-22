@@ -9,31 +9,29 @@ import java.util.Map;
 
 public class OkxSDK {
 
-    public OkxSDK(){
+    public OkxSDK() {
     }
-    private static String baseURL = "https://www.okx.com";
-    public static Client buildClient(APIKeyHolder apiKeyHolder, Client client){
 
-        CommonAPICaller<APIRequestPayload, Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICallerJSON = new CommonAPICaller<>(baseURL,apiKeyHolder);
+    final private static String baseURL = "https://www.okx.com";
+
+    public static Client buildClient(APIKeyHolder apiKeyHolder, Client client, boolean isSimulate) {
+
+        CommonAPICaller<APIRequestPayload, Map<String, Object>> commonAPICaller = new CommonAPICaller<>(baseURL,
+                apiKeyHolder, isSimulate);
+        CommonAPICaller<APIRequestPayload, JsonObject> commonAPICallerJSON = new CommonAPICaller<>(baseURL,
+                apiKeyHolder, isSimulate);
+        // TODO Trade Account 等这些service 不传 apiKeyholder
         client.setApiKeyHolder(apiKeyHolder);
         Trade trade = new Trade();
         trade.setApiKeyHolder(apiKeyHolder);
         trade.setCommonAPICaller(commonAPICaller);
-
         client.setTrade(trade);
-        Asset asset = new Asset(apiKeyHolder,commonAPICallerJSON);
-        AssetConvert assetConvert = new AssetConvert(apiKeyHolder,commonAPICallerJSON);
-
-
         Account account = new Account();
         account.setApiKeyHolder(apiKeyHolder);
         account.setCommonAPICaller(commonAPICaller);
-
         SubAccount subAccount = new SubAccount();
         subAccount.setApiKeyHolder(apiKeyHolder);
         subAccount.setCommonAPICaller(commonAPICaller);
-
 
         BulkTrade bulkTrade = new BulkTrade();
         bulkTrade.setApiKeyHolder(apiKeyHolder);
@@ -47,34 +45,37 @@ public class OkxSDK {
         tradingBigData.setApiKeyHolder(apiKeyHolder);
         tradingBigData.setCommonAPICaller(commonAPICaller);
 
-        client.setAsset(asset);
-        client.setAssetConvert(assetConvert);
         client.setAccount(account);
         client.setSubAccount(subAccount);
-        client.setPublicService(new PublicService(apiKeyHolder,commonAPICallerJSON));
-        client.setMarket(new Market(apiKeyHolder,commonAPICallerJSON));
         client.setStatus(status);
-        client.setCommonService(new CommonService(apiKeyHolder));
         client.setBulkTrade(bulkTrade);
         client.setTradingBigData(tradingBigData);
+
+
+        client.setAsset(new Asset(commonAPICallerJSON));
+        client.setAssetConvert(new AssetConvert(commonAPICallerJSON));
+        client.setPublicService(new PublicService(commonAPICallerJSON));
+        client.setMarket(new Market(commonAPICallerJSON));
+        client.setCommonService(new CommonService(commonAPICallerJSON));
+        client.setGrid(new Grid(commonAPICallerJSON));
 
         return client;
     }
 
 
-
-    public static Client getClient(String apiKey,String secertKey,String passPhrase,boolean isSimluate){
-        Client client= new Client();
+    public static Client getClient(String apiKey, String secertKey, String passPhrase, boolean isSimluate) {
+        Client client = new Client();
         APIKeyHolder apiKeyHolder = new APIKeyHolder();
-        apiKeyHolder.init(apiKey,secertKey,passPhrase);
+        apiKeyHolder.init(apiKey, secertKey, passPhrase);
 
-        return buildClient(apiKeyHolder,client);
+        return buildClient(apiKeyHolder, client, isSimluate);
     }
-    public static Client getClient(String accessToken,boolean isSimluate){
-        Client client= new Client();
+
+    public static Client getClient(String accessToken, boolean isSimluate) {
+        Client client = new Client();
         APIKeyHolder apiKeyHolder = new APIKeyHolder();
         apiKeyHolder.init(accessToken);
-        return buildClient(apiKeyHolder,client);
+        return buildClient(apiKeyHolder, client, isSimluate);
 
     }
 }

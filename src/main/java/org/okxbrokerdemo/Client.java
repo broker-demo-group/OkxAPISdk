@@ -7,17 +7,30 @@ import org.okxbrokerdemo.utils.APIKeyHolder;
 public class Client {
 
     APIKeyHolder apiKeyHolder;
+    Grid grid;
+
+
+
     Trade trade;
     Asset asset;
     Account account;
     SubAccount subAccount;
     AssetConvert assetConvert;
     Market market;
+    Status status;
+    BulkTrade bulkTrade;
     PublicService publicService;
     CommonService commonService;
 
     TradingBigData tradingBigData;
 
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
     public TradingBigData getTradingBigData() {
         return tradingBigData;
     }
@@ -26,7 +39,7 @@ public class Client {
         this.tradingBigData = tradingBigData;
     }
 
-    Status status;
+
 
     public Status getStatus() {
         return status;
@@ -36,7 +49,7 @@ public class Client {
         this.status = status;
     }
 
-    BulkTrade bulkTrade;
+
 
     public BulkTrade getBulkTrade() {
         return bulkTrade;

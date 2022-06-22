@@ -2,6 +2,8 @@ package org.okxbrokerdemo.service;
 
 import com.google.gson.JsonObject;
 import org.junit.jupiter.api.Test;
+import org.okxbrokerdemo.Client;
+import org.okxbrokerdemo.OkxSDK;
 import org.okxbrokerdemo.service.entry.ParamMap;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
@@ -15,20 +17,14 @@ import java.util.List;
  **/
 class PublicServiceTest {
 
-//    String URL = "https://www.okx.com";
-//    boolean isSimulate = true;
-    APIKeyHolder apiKeyHolder = new APIKeyHolder();
-    {
-        apiKeyHolder.init("","","");
-    }
 
-    PublicService publicService = new PublicService(apiKeyHolder);
+    Client client = OkxSDK.getClient("","","", true);
 
     @Test
     void getInstruments() {
         ParamMap param = new ParamMap();
         param.add("instType","SPOT");
-        List<JsonObject> result = this.publicService.getInstruments(param, JsonObject.class);
+        List<JsonObject> result = client.getPublicService().getInstruments(param, JsonObject.class);
         System.out.println(result);
     }
 
@@ -41,7 +37,7 @@ class PublicServiceTest {
         ParamMap param = new ParamMap();
         param.add("instType","FUTURES");
         param.add("uly","BTC-USD");
-        List<JsonObject> result = this.publicService.getDeliveryExerciseHistory(param,JsonObject.class);
+        List<JsonObject> result = client.getPublicService().getDeliveryExerciseHistory(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -50,7 +46,7 @@ class PublicServiceTest {
         ParamMap param = new ParamMap();
         param.add("instType","FUTURES");
         param.add("uly","BTC-USD");
-        List<JsonObject> result = this.publicService.getOpenInterest(param,JsonObject.class);
+        List<JsonObject> result = client.getPublicService().getOpenInterest(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -59,7 +55,7 @@ class PublicServiceTest {
     void getFundingRate() {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USD-SWAP");
-        JsonObject result = this.publicService.getFundingRate(param,JsonObject.class);
+        JsonObject result = client.getPublicService().getFundingRate(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -68,7 +64,7 @@ class PublicServiceTest {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USD-SWAP");
         param.add("limit","3");
-        List<JsonObject> result = this.publicService.getFundingRateHistory(param,JsonObject.class);
+        List<JsonObject> result = client.getPublicService().getFundingRateHistory(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -76,7 +72,7 @@ class PublicServiceTest {
     void getPriceLimit() {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USD-SWAP");
-        JsonObject result = this.publicService.getPriceLimit(param,JsonObject.class);
+        JsonObject result = client.getPublicService().getPriceLimit(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -85,7 +81,7 @@ class PublicServiceTest {
     void getOptSummary() {
         ParamMap param = new ParamMap();
         param.add("uly","BTC-USD");
-        List<JsonObject> result = this.publicService.getOptSummary(param,JsonObject.class);
+        List<JsonObject> result = client.getPublicService().getOptSummary(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -93,13 +89,13 @@ class PublicServiceTest {
     void getEstimatedPrice() {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USD-220729-33000-P");
-        JsonObject result = this.publicService.getEstimatedPrice(param,JsonObject.class);
+        JsonObject result = client.getPublicService().getEstimatedPrice(param,JsonObject.class);
         System.out.println(result);
     }
 
     @Test
     void getSystemTime() {
-        System.out.println(this.publicService.getSystemTime(JsonObject.class));
+        System.out.println(client.getPublicService().getSystemTime(JsonObject.class));
     }
 
     @Test
@@ -109,7 +105,7 @@ class PublicServiceTest {
         param.add("uly","BTC-USDT");
         param.add("alias","this_week");
         param.add("state","filled");
-        List<JsonObject> result = this.publicService.getLiquidationOrders(param,JsonObject.class);
+        List<JsonObject> result = client.getPublicService().getLiquidationOrders(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -118,7 +114,7 @@ class PublicServiceTest {
         ParamMap param = new ParamMap();
         param.add("instType","FUTURES");
         param.add("uly","BTC-USDT");
-        List<JsonObject> result = this.publicService.getMarkPrice(param,JsonObject.class);
+        List<JsonObject> result = client.getPublicService().getMarkPrice(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -128,18 +124,18 @@ class PublicServiceTest {
         param.add("instType","FUTURES");
         param.add("tdMode","cross");
         param.add("uly","BTC-USDT");
-        List<JsonObject> result = this.publicService.getPositionTiers(param,JsonObject.class);
+        List<JsonObject> result = client.getPublicService().getPositionTiers(param,JsonObject.class);
         System.out.println(result);
     }
 
     @Test
     void getInterestRateLoanQuota() {
-        System.out.println(this.publicService.getInterestRateLoanQuota(JsonObject.class));
+        System.out.println(client.getPublicService().getInterestRateLoanQuota(JsonObject.class));
     }
 
     @Test
     void getVIPInterestRateLoanQuota() {
-        System.out.println(this.publicService.getVIPInterestRateLoanQuota(JsonObject.class));
+        System.out.println(client.getPublicService().getVIPInterestRateLoanQuota(JsonObject.class));
     }
 
     @Test
@@ -147,7 +143,7 @@ class PublicServiceTest {
         ParamMap param = new ParamMap();
         param.add("instType","FUTURES");
         //todo 响应的body为 list(list()) 这样的格式
-        System.out.println(this.publicService.getUnderlying(param, LinkedList.class));
+        System.out.println(client.getPublicService().getUnderlying(param, LinkedList.class));
     }
 
     @Test
@@ -155,7 +151,7 @@ class PublicServiceTest {
         ParamMap param = new ParamMap();
         param.add("instType","FUTURES");
         param.add("uly","BTC-USDT");
-        JsonObject result = this.publicService.getInsuranceFund(param,JsonObject.class);
+        JsonObject result = client.getPublicService().getInsuranceFund(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -165,7 +161,7 @@ class PublicServiceTest {
         param.add("instId","BTC-USD-SWAP");
         param.add("sz","10");
         param.add("px","33");
-        JsonObject result = this.publicService.convertContractCoin(param,JsonObject.class);
+        JsonObject result = client.getPublicService().convertContractCoin(param,JsonObject.class);
         System.out.println(result);
     }
 }

@@ -14,13 +14,14 @@ import java.util.Map;
 
 
 public class testCommonAPICaller {
-    Client client = OkxSDK.getClient("sssssssssw");
+    Client client = OkxSDK.getClient("sssssssssw",true);
     APIKeyHolder apiKeyHolder;
     String API_URL = "https://aws.okx.com";
     @Test
     public void testCallerPost(){
         apiKeyHolder = client.getApiKeyHolder();
-        CommonAPICaller<DemoElement, Map<String,String>> commonAPICaller = new CommonAPICaller<>(API_URL,apiKeyHolder);
+        CommonAPICaller<DemoElement, Map<String,String>> commonAPICaller = new CommonAPICaller<>(API_URL,apiKeyHolder
+                ,true);
 
 
         DemoElement demoElement = new DemoElement();

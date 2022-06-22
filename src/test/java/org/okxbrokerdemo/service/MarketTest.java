@@ -2,6 +2,8 @@ package org.okxbrokerdemo.service;
 
 import com.google.gson.JsonObject;
 import org.junit.jupiter.api.Test;
+import org.okxbrokerdemo.Client;
+import org.okxbrokerdemo.OkxSDK;
 import org.okxbrokerdemo.service.entry.ParamMap;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
@@ -14,17 +16,13 @@ import java.util.List;
  * @date: 2022/6/17  11:03 AM
  **/
 class MarketTest {
-    Market market;
-    {
-        APIKeyHolder apiKeyHolder = new APIKeyHolder();
-        apiKeyHolder.init("","","");
-        market = new Market( apiKeyHolder);
-    }
+    Client client = OkxSDK.getClient("","","", true);
+
     @Test
     void getMarketTickers() {
         ParamMap param = new ParamMap();
         param.add("instType","FUTURES");
-        List<JsonObject> json = market.getMarketTickers(param,JsonObject.class);
+        List<JsonObject> json = client.getMarket().getMarketTickers(param,JsonObject.class);
         System.out.println(json);
     }
 
@@ -36,7 +34,7 @@ class MarketTest {
 //        param.add("quoteCcy","USDT");
         param.add("instId","BTC-USDT");
 
-        JsonObject result = market.getMarketTicker(param,JsonObject.class);
+        JsonObject result = client.getMarket().getMarketTicker(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -45,7 +43,7 @@ class MarketTest {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USDT");
 
-        List<JsonObject> result = market.getMarketIndexTickers(param,JsonObject.class);
+        List<JsonObject> result = client.getMarket().getMarketIndexTickers(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -54,7 +52,7 @@ class MarketTest {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USDT");
 
-        List<JsonObject> result = market.getBooks(param,JsonObject.class);
+        List<JsonObject> result = client.getMarket().getBooks(param,JsonObject.class);
         System.out.println(result);
     }
 
@@ -65,7 +63,7 @@ class MarketTest {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USDT");
         // k线图 List<List<>> 内层的一个list 代表一个柱子
-        List<ArrayList> result = market.getMarketCandles(param, ArrayList.class);
+        List<ArrayList> result = client.getMarket().getMarketCandles(param, ArrayList.class);
         System.out.println(result);
     }
 
@@ -74,7 +72,7 @@ class MarketTest {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USDT");
         // k线图 List<List<>> 内层的一个list 代表一个柱子
-        List<ArrayList> result = market.getMarketHistoryCandles(param, ArrayList.class);
+        List<ArrayList> result = client.getMarket().getMarketHistoryCandles(param, ArrayList.class);
         System.out.println(result);
     }
 
@@ -84,7 +82,7 @@ class MarketTest {
         param.add("instId","BTC-USDT");
         param.add("bar","1D"); // 日线
         // k线图 List<List<>> 内层的一个list 代表一个柱子 [开盘，最高，最低，收盘]，一个时间单位画一个柱子；
-        List<ArrayList> result = market.getMarketIndexCandles(param, ArrayList.class);
+        List<ArrayList> result = client.getMarket().getMarketIndexCandles(param, ArrayList.class);
         System.out.println(result);
     }
 
@@ -94,7 +92,7 @@ class MarketTest {
         param.add("instId","BTC-USDT-SWAP");
         param.add("bar","1D"); // 日线
         // k线图 List<List<>> 内层的一个list 代表一个柱子 [开盘，最高，最低，收盘]，一个时间单位画一个柱子；
-        List<ArrayList> result = market.getMarketMarkPriceCandles(param, ArrayList.class);
+        List<ArrayList> result = client.getMarket().getMarketMarkPriceCandles(param, ArrayList.class);
         System.out.println(result);
     }
 
@@ -104,7 +102,7 @@ class MarketTest {
         param.add("instId","BTC-USDT");
         param.add("limit","10");
         // 获取最近10个，BTC-USDT 交易成功的交易记录
-        List<JsonObject> result = market.getMarketTrades(param, JsonObject.class);
+        List<JsonObject> result = client.getMarket().getMarketTrades(param, JsonObject.class);
         System.out.println(result);
     }
 
@@ -115,26 +113,26 @@ class MarketTest {
         param.add("instId","BTC-USDT");
         param.add("limit","10");
         // 获取最近10个，BTC-USDT 交易成功的交易记录
-        List<JsonObject> result = market.getMarketHistoryTrades(param, JsonObject.class);
+        List<JsonObject> result = client.getMarket().getMarketHistoryTrades(param, JsonObject.class);
         System.out.println(result);
     }
 
     @Test
     void getMarketPlatform24Volume() {
         // 平台24小时成交额
-        System.out.println(market.getMarketPlatform24Volume(new ParamMap(),JsonObject.class));
+        System.out.println(client.getMarket().getMarketPlatform24Volume(new ParamMap(),JsonObject.class));
     }
 
 
     @Test
     void getMarketOpenOracle() {
         // 返回{"code":"0","msg":"","data":[null]} 这里会不会是一bad case?
-        System.out.println(market.getMarketOpenOracle(new ParamMap(),JsonObject.class));
+        System.out.println(client.getMarket().getMarketOpenOracle(new ParamMap(),JsonObject.class));
     }
 
     @Test
     void getMarketExchangeRate() {
-        System.out.println(market.getMarketExchangeRate(new ParamMap(), JsonObject.class));
+        System.out.println(client.getMarket().getMarketExchangeRate(new ParamMap(), JsonObject.class));
     }
 
     @Test
@@ -142,7 +140,7 @@ class MarketTest {
         ParamMap param = new ParamMap();
         param.add("index","BTC-USDT");
         // todo 这里返回的Json 结构复杂，是后续需要解决的问题
-        JsonObject jsonObject = market.getMarketIndexComponents(param,JsonObject.class);
+        JsonObject jsonObject = client.getMarket().getMarketIndexComponents(param,JsonObject.class);
         System.out.println(jsonObject);
     }
 
@@ -150,7 +148,7 @@ class MarketTest {
     void getMarketBlockTickers() {
         ParamMap param = new ParamMap();
         param.add("instType","FUTURES");
-        List<JsonObject> result = market.getMarketBlockTickers(param, JsonObject.class);
+        List<JsonObject> result = client.getMarket().getMarketBlockTickers(param, JsonObject.class);
         System.out.println(result);
     }
 
@@ -158,7 +156,7 @@ class MarketTest {
     void getMarketBlockTicker() {
         ParamMap param = new ParamMap();
         param.add("instId","BTC-USDT");
-        JsonObject result = market.getMarketBlockTicker(param, JsonObject.class);
+        JsonObject result = client.getMarket().getMarketBlockTicker(param, JsonObject.class);
         System.out.println(result);
     }
 }
