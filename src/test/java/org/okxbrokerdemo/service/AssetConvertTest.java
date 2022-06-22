@@ -1,6 +1,7 @@
 package org.okxbrokerdemo.service;
 
 import com.google.gson.JsonObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.okxbrokerdemo.Client;
 import org.okxbrokerdemo.OkxSDK;
@@ -17,7 +18,7 @@ import java.util.List;
 class AssetConvertTest {
     Client client = OkxSDK.getClient("",
             "",
-            "");
+            "",true);
     @BeforeEach
     void setUp() {
 

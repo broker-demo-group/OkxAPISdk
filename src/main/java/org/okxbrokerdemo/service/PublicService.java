@@ -28,6 +28,13 @@ public class PublicService {
         commonAPICaller = new CommonAPICaller<>(this.APIUrl, this.apiKeyHolder);
     }
 
+    public PublicService(APIKeyHolder apiKeyHolder,CommonAPICaller<APIRequestPayload,JsonObject> commonAPICaller) {
+        this.APIUrl = "https://www.okx.com";
+        this.isSimulate = true;
+        this.apiKeyHolder = apiKeyHolder;
+        this.commonAPICaller = commonAPICaller;
+    }
+
 
 
     public <T> List<T> getInstruments(APIRequestPayload param, Class<T> clazz){

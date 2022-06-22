@@ -24,9 +24,9 @@ public class Asset {
     public boolean isSimulate = true;
     APIKeyHolder apiKeyHolder;
     CommonAPICaller<APIRequestPayload,JsonObject> commonAPICaller;
-    public Asset(APIKeyHolder apiKeyHolder){
+    public Asset(APIKeyHolder apiKeyHolder,CommonAPICaller<APIRequestPayload,JsonObject> commonAPICaller){
         this.apiKeyHolder = apiKeyHolder;
-        commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder );
+        this.commonAPICaller = commonAPICaller;
     }
 
     public <T> List<T> getCurrencies(Class<T> clazz) {

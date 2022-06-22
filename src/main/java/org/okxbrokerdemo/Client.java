@@ -16,6 +16,36 @@ public class Client {
     PublicService publicService;
     CommonService commonService;
 
+    TradingBigData tradingBigData;
+
+    public TradingBigData getTradingBigData() {
+        return tradingBigData;
+    }
+
+    public void setTradingBigData(TradingBigData tradingBigData) {
+        this.tradingBigData = tradingBigData;
+    }
+
+    Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    BulkTrade bulkTrade;
+
+    public BulkTrade getBulkTrade() {
+        return bulkTrade;
+    }
+
+    public void setBulkTrade(BulkTrade bulkTrade) {
+        this.bulkTrade = bulkTrade;
+    }
+
     public Market getMarket() {
         return market;
     }

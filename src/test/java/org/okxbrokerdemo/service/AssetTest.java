@@ -18,7 +18,7 @@ import java.util.List;
 class AssetTest {
     Client client = OkxSDK.getClient("",
             "",
-            "");
+            "",true);
     @BeforeEach
     void setUp() {
 

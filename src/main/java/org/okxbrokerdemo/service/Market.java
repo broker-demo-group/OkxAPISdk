@@ -36,6 +36,13 @@ public class Market {
         commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder );
     }
 
+    public Market(APIKeyHolder apiKeyHolder,CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller) {
+        this.APIUrl = "http://www.okx.com";
+        this.isSimulate = true;
+        this.apiKeyHolder = apiKeyHolder;
+        this.commonAPICaller = commonAPICaller;
+    }
+
     public <R> List<R> getMarketTickers(APIRequestPayload param, Class<R> clazz){
         return  listExecute(param,"GET","/api/v5/market/tickers",clazz);
     }

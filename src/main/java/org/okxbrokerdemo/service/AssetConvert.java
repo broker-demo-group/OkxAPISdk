@@ -22,9 +22,9 @@ public class AssetConvert {
     APIKeyHolder apiKeyHolder;
     CommonAPICaller<APIRequestPayload,JsonObject> commonAPICaller;
 
-    public AssetConvert(APIKeyHolder apiKeyHolder){
+    public AssetConvert(APIKeyHolder apiKeyHolder, CommonAPICaller<APIRequestPayload,JsonObject> commonAPICaller){
         this.apiKeyHolder = apiKeyHolder;
-        commonAPICaller = new CommonAPICaller<>(APIUrl,this.apiKeyHolder );
+        this.commonAPICaller = commonAPICaller;
     }
     // 获取闪兑币种列表
     public <T> List<T> getConvertCurrencies(APIRequestPayload param,Class<T> clazz){

@@ -6,7 +6,7 @@ import okhttp3.Request;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 import org.okxbrokerdemo.utils.AutorizationMethod;
 import org.okxbrokerdemo.utils.SignatureGenerator;
-import org.okxbrokerdemo.utils.headerMapBuilder;
+import org.okxbrokerdemo.utils.HeaderMapBuilder;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -29,9 +29,28 @@ public class Trade {
 
     private APIKeyHolder apiKeyHolder;
     private String baseURL = "https://www.okx.com";
+
+    private CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller;
     public Trade(){}
-    public Map<String,Object> placeOrder(APIRequestPayload apiRequestPayload,boolean isSimluate) throws IOException {
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+
+    public String getBaseURL() {
+        return baseURL;
+    }
+
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
+
+    public CommonAPICaller<APIRequestPayload, Map<String, Object>> getCommonAPICaller() {
+        return commonAPICaller;
+    }
+
+    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, Map<String, Object>> commonAPICaller) {
+        this.commonAPICaller = commonAPICaller;
+    }
+
+    public Map<String,Object> placeOrder(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/trade/order",apiRequestPayload,isSimluate);
         return  result;
     }
@@ -45,13 +64,13 @@ public class Trade {
     }
 
     public Map<String,Object> batchOrders(APIRequestPayload apiRequestPayload,boolean isSimluate) throws IOException {
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/trade/batch-orders",apiRequestPayload,isSimluate);
         return  result;
     }
 
     public Map<String,Object> cancelOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("POST","/api/v5/trade/cancel-order",apiRequestPayload,isSimluate);
@@ -62,7 +81,7 @@ public class Trade {
     }
 
     public Map<String,Object> cancelBatchOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("POST","/api/v5/trade/cancel-batch-orders",apiRequestPayload,isSimluate);
@@ -74,7 +93,7 @@ public class Trade {
 
 
     public Map<String,Object> amendOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("POST","/api/v5/trade/amend-order",apiRequestPayload,isSimluate);
@@ -86,7 +105,7 @@ public class Trade {
 
 
     public Map<String,Object> amendBatchOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("POST","/api/v5/trade/amend-batch-orders",apiRequestPayload,isSimluate);
@@ -97,7 +116,7 @@ public class Trade {
     }
 
     public Map<String,Object> closePosition(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("POST","/api/v5/trade/close-position",apiRequestPayload,isSimluate);
@@ -109,7 +128,7 @@ public class Trade {
 
 
     public Map<String,Object> getOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("GET","/api/v5/trade/order",apiRequestPayload,isSimluate);
@@ -121,7 +140,7 @@ public class Trade {
 
 
     public Map<String,Object> getOrderPending(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-pending",apiRequestPayload,isSimluate);
@@ -131,7 +150,7 @@ public class Trade {
         return result;
     }
     public Map<String,Object> getOrderHistory(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-history",apiRequestPayload,isSimluate);
@@ -142,7 +161,7 @@ public class Trade {
     }
 
     public Map<String,Object> getOrderHistoryArchive(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-history-archive",apiRequestPayload,isSimluate);
@@ -153,7 +172,7 @@ public class Trade {
     }
 
     public Map<String,Object> getFills(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("GET","/api/v5/trade/fills",apiRequestPayload,isSimluate);
@@ -164,7 +183,7 @@ public class Trade {
     }
 
     public Map<String,Object> getFillsHistory(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("GET","/api/v5/trade/fills-history",apiRequestPayload,isSimluate);
@@ -175,7 +194,7 @@ public class Trade {
     }
 
     public Map<String,Object> orderAlgo(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("POST","/api/v5/trade/order-algo",apiRequestPayload,isSimluate);
@@ -186,7 +205,7 @@ public class Trade {
     }
 
     public Map<String,Object> cancelAlgo(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("POST","/api/v5/trade/cancel-algos",apiRequestPayload,isSimluate);
@@ -197,7 +216,7 @@ public class Trade {
     }
 
     public Map<String,Object> cancelAdvanceAlgo(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("POST","/api/v5/trade/cancel-advance-algos",apiRequestPayload,isSimluate);
@@ -208,7 +227,7 @@ public class Trade {
     }
 
     public Map<String,Object> getOrdersAlgoPending(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-algo-pending",apiRequestPayload,isSimluate);
@@ -219,7 +238,7 @@ public class Trade {
     }
 
     public Map<String,Object> getOrdersAlgoHistory(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         Map<String,Object> result = null;
         try {
             result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-algo-history",apiRequestPayload,isSimluate);
