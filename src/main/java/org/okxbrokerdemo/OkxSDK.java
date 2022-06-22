@@ -63,14 +63,14 @@ public class OkxSDK {
 
 
 
-    public static Client getClient(String apiKey,String secertKey,String passPhrase){
+    public static Client getClient(String apiKey,String secertKey,String passPhrase,boolean isSimluate){
         Client client= new Client();
         APIKeyHolder apiKeyHolder = new APIKeyHolder();
         apiKeyHolder.init(apiKey,secertKey,passPhrase);
 
         return buildClient(apiKeyHolder,client);
     }
-    public static Client getClient(String accessToken){
+    public static Client getClient(String accessToken,boolean isSimluate){
         Client client= new Client();
         APIKeyHolder apiKeyHolder = new APIKeyHolder();
         apiKeyHolder.init(accessToken);

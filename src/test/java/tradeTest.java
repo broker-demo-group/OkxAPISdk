@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class tradeTest {
 
-    Client client = OkxSDK.getClient("ccccaschuiasgvuis");
+    Client client = OkxSDK.getClient("ccccaschuiasgvuis",true);
     @Test
     public void testTrade(){
         System.out.println(client.getApiKeyHolder().getAutorizationMethod().toString());
