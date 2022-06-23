@@ -36,8 +36,8 @@ public class SubAccount {
         return  result;
     }
 
-    public <T> List<T> getSubAccountBalance(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
-        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/subaccount/balances",clazz);
+    public <T> T getSubAccountBalance(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"GET","/api/v5/account/subaccount/balances",clazz);
         return  result;
     }
 
@@ -46,13 +46,13 @@ public class SubAccount {
         return  result;
     }
 
-    public <T> List<T> subAccountTransfer(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
-        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/asset/subaccount/transfer",clazz);
+    public <T> T subAccountTransfer(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/asset/subaccount/transfer",clazz);
         return  result;
     }
 
-    public <T> List<T> setTransferOut(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
-        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/users/subaccount/set-transfer-out",clazz);
+    public <T> T setTransferOut(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/users/subaccount/set-transfer-out",clazz);
         return  result;
     }
 

@@ -2,6 +2,7 @@ package org.okxbrokerdemo.service;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import okhttp3.Request;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 import org.okxbrokerdemo.utils.AutorizationMethod;
@@ -30,7 +31,7 @@ public class Trade {
     private APIKeyHolder apiKeyHolder;
     private String baseURL = "https://www.okx.com";
 
-    private CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller;
+    private CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;
     public Trade(){}
 
     public String getBaseURL() {
@@ -41,17 +42,17 @@ public class Trade {
         this.baseURL = baseURL;
     }
 
-    public CommonAPICaller<APIRequestPayload, Map<String, Object>> getCommonAPICaller() {
+    public CommonAPICaller<APIRequestPayload, JsonObject> getCommonAPICaller() {
         return commonAPICaller;
     }
 
-    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, Map<String, Object>> commonAPICaller) {
+    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller) {
         this.commonAPICaller = commonAPICaller;
     }
 
-    public Map<String,Object> placeOrder(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
+    public <T> T placeOrder(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
         //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/trade/order",apiRequestPayload,isSimluate);
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/trade/order",clazz);
         return  result;
     }
 
@@ -63,195 +64,108 @@ public class Trade {
         this.apiKeyHolder = apiKeyHolder;
     }
 
-    public Map<String,Object> batchOrders(APIRequestPayload apiRequestPayload,boolean isSimluate) throws IOException {
+    public <T> List<T> batchOrders(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
         //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/trade/batch-orders",apiRequestPayload,isSimluate);
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/trade/batch-orders",clazz);
         return  result;
     }
 
-    public Map<String,Object> cancelOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("POST","/api/v5/trade/cancel-order",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> T cancelOrder(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/trade/cancel-order",clazz);
+
         return result;
     }
 
-    public Map<String,Object> cancelBatchOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("POST","/api/v5/trade/cancel-batch-orders",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> cancelBatchOrder(APIRequestPayload apiRequestPayload,Class<T> clazz){
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/trade/cancel-batch-orders",clazz);
         return result;
     }
 
 
-    public Map<String,Object> amendOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("POST","/api/v5/trade/amend-order",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> T amendOrder(APIRequestPayload apiRequestPayload,Class<T> clazz){
+
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/trade/amend-order",clazz);
+
         return result;
     }
 
 
-    public Map<String,Object> amendBatchOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("POST","/api/v5/trade/amend-batch-orders",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> amendBatchOrder(APIRequestPayload apiRequestPayload,Class<T> clazz){
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/trade/amend-batch-orders",clazz);
+
         return result;
     }
 
-    public Map<String,Object> closePosition(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("POST","/api/v5/trade/close-position",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> closePosition(APIRequestPayload apiRequestPayload,Class<T> clazz){
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/trade/close-position",clazz);
         return result;
     }
 
 
-    public Map<String,Object> getOrder(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("GET","/api/v5/trade/order",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> getOrder(APIRequestPayload apiRequestPayload,Class<T> clazz){
+
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/trade/order",clazz);
         return result;
     }
 
 
-    public Map<String,Object> getOrderPending(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-pending",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> getOrderPending(APIRequestPayload apiRequestPayload,Class<T> clazz){
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/trade/orders-pending",clazz);
         return result;
     }
-    public Map<String,Object> getOrderHistory(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-history",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> getOrderHistory(APIRequestPayload apiRequestPayload,Class<T> clazz){
+
+        List<T> result  = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/trade/orders-history",clazz);
+
         return result;
     }
 
-    public Map<String,Object> getOrderHistoryArchive(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-history-archive",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> getOrderHistoryArchive(APIRequestPayload apiRequestPayload,Class<T> clazz){
+        List<T>  result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/trade/orders-history-archive",clazz);
         return result;
     }
 
-    public Map<String,Object> getFills(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("GET","/api/v5/trade/fills",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> getFills(APIRequestPayload apiRequestPayload,Class<T> clazz){
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/trade/fills",clazz);
         return result;
     }
 
-    public Map<String,Object> getFillsHistory(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("GET","/api/v5/trade/fills-history",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> getFillsHistory(APIRequestPayload apiRequestPayload,Class<T> clazz){
+
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/trade/fills-history",clazz);
+
         return result;
     }
 
-    public Map<String,Object> orderAlgo(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("POST","/api/v5/trade/order-algo",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> T orderAlgo(APIRequestPayload apiRequestPayload,Class<T> clazz){
+
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/trade/order-algo",clazz);
+
         return result;
     }
 
-    public Map<String,Object> cancelAlgo(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("POST","/api/v5/trade/cancel-algos",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> cancelAlgo(APIRequestPayload apiRequestPayload,Class<T> clazz){
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/trade/cancel-algos",clazz);
         return result;
     }
 
-    public Map<String,Object> cancelAdvanceAlgo(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("POST","/api/v5/trade/cancel-advance-algos",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> cancelAdvanceAlgo(APIRequestPayload apiRequestPayload,Class<T> clazz){
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/trade/cancel-advance-algos",clazz);
         return result;
     }
 
-    public Map<String,Object> getOrdersAlgoPending(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-algo-pending",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> getOrdersAlgoPending(APIRequestPayload apiRequestPayload,Class<T> clazz){
+
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/trade/orders-algo-pending",clazz);
+
         return result;
     }
 
-    public Map<String,Object> getOrdersAlgoHistory(APIRequestPayload apiRequestPayload,boolean isSimluate){
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = null;
-        try {
-            result = commonAPICaller.requestAPI("GET","/api/v5/trade/orders-algo-history",apiRequestPayload,isSimluate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> getOrdersAlgoHistory(APIRequestPayload apiRequestPayload,Class<T> clazz){
+
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/trade/orders-algo-history",clazz);
+
         return result;
     }
-
-
-
-
-
-
 
 }

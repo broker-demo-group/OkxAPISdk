@@ -24,7 +24,7 @@ public class OkxSDK {
         client.setApiKeyHolder(apiKeyHolder);
         Trade trade = new Trade();
         trade.setApiKeyHolder(apiKeyHolder);
-        trade.setCommonAPICaller(commonAPICaller);
+        trade.setCommonAPICaller(commonAPICallerJSON);
         client.setTrade(trade);
 
 
