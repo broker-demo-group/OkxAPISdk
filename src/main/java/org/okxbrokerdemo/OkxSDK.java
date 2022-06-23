@@ -26,20 +26,20 @@ public class OkxSDK {
         trade.setApiKeyHolder(apiKeyHolder);
         trade.setCommonAPICaller(commonAPICaller);
         client.setTrade(trade);
+
+
         Account account = new Account();
-        account.setApiKeyHolder(apiKeyHolder);
-        account.setCommonAPICaller(commonAPICaller);
+        account.setCommonAPICaller(commonAPICallerJSON);
+
         SubAccount subAccount = new SubAccount();
-        subAccount.setApiKeyHolder(apiKeyHolder);
-        subAccount.setCommonAPICaller(commonAPICaller);
+        subAccount.setCommonAPICaller(commonAPICallerJSON);
 
         BulkTrade bulkTrade = new BulkTrade();
-        bulkTrade.setApiKeyHolder(apiKeyHolder);
-        bulkTrade.setCommonAPICaller(commonAPICaller);
+        bulkTrade.setCommonAPICaller(commonAPICallerJSON);
 
         Status status = new Status();
         status.setApiKeyHolder(apiKeyHolder);
-        status.setCommonAPICaller(commonAPICaller);
+        status.setCommonAPICaller(commonAPICallerJSON);
 
         TradingBigData tradingBigData = new TradingBigData();
         tradingBigData.setApiKeyHolder(apiKeyHolder);

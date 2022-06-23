@@ -1,23 +1,17 @@
 package org.okxbrokerdemo.service;
 
+import com.google.gson.JsonObject;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class SubAccount {
-    private APIKeyHolder apiKeyHolder;
+
     private String baseURL = "https://www.okx.com";
 
     public SubAccount(){}
-
-    public APIKeyHolder getApiKeyHolder() {
-        return apiKeyHolder;
-    }
-
-    public void setApiKeyHolder(APIKeyHolder apiKeyHolder) {
-        this.apiKeyHolder = apiKeyHolder;
-    }
 
     public String getBaseURL() {
         return baseURL;
@@ -27,49 +21,43 @@ public class SubAccount {
         this.baseURL = baseURL;
     }
 
-    private CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller;
+    private CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;
 
-    public CommonAPICaller<APIRequestPayload, Map<String, Object>> getCommonAPICaller() {
+    public CommonAPICaller<APIRequestPayload, JsonObject> getCommonAPICaller() {
         return commonAPICaller;
     }
 
-    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, Map<String, Object>> commonAPICaller) {
+    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller) {
         this.commonAPICaller = commonAPICaller;
     }
 
-    public Map<String,Object> getSubAccountList(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/users/subaccount/list",apiRequestPayload,isSimluate);
+    public <T> List<T> getSubAccountList(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/users/subaccount/list",clazz);
         return  result;
     }
 
-    public Map<String,Object> getSubAccountBalance(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/subaccount/balances",apiRequestPayload,isSimluate);
+    public <T> List<T> getSubAccountBalance(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/subaccount/balances",clazz);
         return  result;
     }
 
-    public Map<String,Object> getSubAccountBills(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/asset/subaccount/bills",apiRequestPayload,isSimluate);
+    public <T> List<T> getSubAccountBills(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/asset/subaccount/bills",clazz);
         return  result;
     }
 
-    public Map<String,Object> subAccountTransfer(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/asset/subaccount/transfer",apiRequestPayload,isSimluate);
+    public <T> List<T> subAccountTransfer(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/asset/subaccount/transfer",clazz);
         return  result;
     }
 
-    public Map<String,Object> setTransferOut(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/users/subaccount/set-transfer-out",apiRequestPayload,isSimluate);
+    public <T> List<T> setTransferOut(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/users/subaccount/set-transfer-out",clazz);
         return  result;
     }
 
-    public Map<String,Object> getEntrustSubaccountList(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/users/entrust-subaccount-list",apiRequestPayload,isSimluate);
+    public <T> List<T> getEntrustSubaccountList(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/users/entrust-subaccount-list",clazz);
         return  result;
     }
 

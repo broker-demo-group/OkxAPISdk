@@ -1,98 +1,94 @@
 package org.okxbrokerdemo.service;
 
+import com.google.gson.JsonObject;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class BulkTrade {
-    private APIKeyHolder apiKeyHolder;
+
     private String baseURL = "https://www.okx.com";
     public BulkTrade(){}
-    private CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller;
+    private CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;
 
-    public CommonAPICaller<APIRequestPayload, Map<String, Object>> getCommonAPICaller() {
+    public CommonAPICaller<APIRequestPayload, JsonObject> getCommonAPICaller() {
         return commonAPICaller;
     }
 
-    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, Map<String, Object>> commonAPICaller) {
+    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller) {
         this.commonAPICaller = commonAPICaller;
     }
 
-    public APIKeyHolder getApiKeyHolder() {
-        return apiKeyHolder;
-    }
 
-    public void setApiKeyHolder(APIKeyHolder apiKeyHolder) {
-        this.apiKeyHolder = apiKeyHolder;
-    }
 
-    public Map<String,Object> counterParties(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/rfq/counterparties",apiRequestPayload,isSimluate);
+    public <T> List<T> counterParties(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/rfq/counterparties",clazz);
         return  result;
     }
 
-    public Map<String,Object> createRfq(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/create-rfq",apiRequestPayload,isSimluate);
+    public <T> T createRfq(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/rfq/create-rfq",clazz);
         return  result;
     }
 
-    public Map<String,Object> cancelRfq(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/cancel-rfq",apiRequestPayload,isSimluate);
+    public <T> T cancelRfq(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/rfq/cancel-rfq",clazz);
         return  result;
     }
 
-    public Map<String,Object> cancelBatchRfq(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/cancel-batch-rfqs",apiRequestPayload,isSimluate);
+    public <T> List<T> cancelBatchRfq(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/rfq/cancel-batch-rfqs",clazz);
         return  result;
     }
 
-    public Map<String,Object> cancelAllRfq(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/cancel-all-rfqs",apiRequestPayload,isSimluate);
+    public <T> List<T> cancelAllRfq(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/rfq/cancel-all-rfqs",clazz);
         return  result;
     }
 
-    public Map<String,Object> executeQuote(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/execute-quote",apiRequestPayload,isSimluate);
+    public <T> T executeQuote(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/rfq/execute-quote",clazz);
         return  result;
     }
 
-    public Map<String,Object> createQuote(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/create-quote",apiRequestPayload,isSimluate);
+    public <T> T createQuote(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/rfq/create-quote",clazz);
         return  result;
     }
 
-    public Map<String,Object> cancelQuote(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/cancel-quote",apiRequestPayload,isSimluate);
+    public <T> T cancelQuote(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/rfq/cancel-quote",clazz);
         return  result;
     }
 
-    public Map<String,Object> cancelBatchQuote(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/cancel-batch-quotes",apiRequestPayload,isSimluate);
+    public <T> List<T> cancelBatchQuote(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/rfq/cancel-batch-quotes",clazz);
         return  result;
     }
 
-    public Map<String,Object> cancelAllQuote(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/rfq/cancel-all-quotes",apiRequestPayload,isSimluate);
+    public <T> List<T> cancelAllQuote(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/rfq/cancel-all-quotes",clazz);
         return  result;
     }
 
-    public Map<String,Object> getRfqs(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/rfq/rfqs",apiRequestPayload,isSimluate);
+    public <T> List<T> getRfqs(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/rfq/rfqs",clazz);
         return  result;
     }
-    public Map<String,Object> getQuotes(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/rfq/quotes",apiRequestPayload,isSimluate);
-        return  result;
-    }
-
-    public Map<String,Object> getTrades(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/rfq/trades",apiRequestPayload,isSimluate);
+    public <T> List<T> getQuotes(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/rfq/quotes",clazz);
         return  result;
     }
 
-    public Map<String,Object> getPublicTrades(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/rfq/public-trades",apiRequestPayload,isSimluate);
+    public <T> List<T> getTrades(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/rfq/trades",clazz);
+        return  result;
+    }
+
+    public <T> List<T> getPublicTrades(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/rfq/public-trades",clazz);
         return  result;
     }
 

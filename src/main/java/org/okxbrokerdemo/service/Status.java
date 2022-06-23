@@ -1,26 +1,28 @@
 package org.okxbrokerdemo.service;
 
+import com.google.gson.JsonObject;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class Status {
     private String baseURL = "https://www.okx.com";
     private APIKeyHolder apiKeyHolder;
 
-    private CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller;
-    public Map<String,Object> getStatus(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
+    private CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;
+    public <T> List<T> getStatus(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
         //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/system/status",apiRequestPayload,isSimluate);
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/system/status",clazz);
         return  result;
     }
 
-    public CommonAPICaller<APIRequestPayload, Map<String, Object>> getCommonAPICaller() {
+    public CommonAPICaller<APIRequestPayload, JsonObject> getCommonAPICaller() {
         return commonAPICaller;
     }
 
-    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, Map<String, Object>> commonAPICaller) {
+    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller) {
         this.commonAPICaller = commonAPICaller;
     }
 

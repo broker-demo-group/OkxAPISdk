@@ -37,7 +37,6 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
         this.isSimulate = isSimulate;
         requestHandler = retrofit.create(CommonRequestRetrofit.class);
         this.apiKeyHolder = apiKeyHolder;
-        // Class cls = HashMap.class;
     }
 
     public R getReturnTypes() {

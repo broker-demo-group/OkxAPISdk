@@ -1,33 +1,26 @@
 package org.okxbrokerdemo.service;
 
+import com.google.gson.JsonObject;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class Account {
-    private APIKeyHolder apiKeyHolder;
     private String baseURL = "https://www.okx.com";
 
     public Account(){
 
     }
-    private CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller;
+    private CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;;
 
-    public CommonAPICaller<APIRequestPayload, Map<String, Object>> getCommonAPICaller() {
+    public CommonAPICaller<APIRequestPayload, JsonObject> getCommonAPICaller() {
         return commonAPICaller;
     }
 
-    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, Map<String, Object>> commonAPICaller) {
+    public void setCommonAPICaller(CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller) {
         this.commonAPICaller = commonAPICaller;
-    }
-
-    public APIKeyHolder getApiKeyHolder() {
-        return apiKeyHolder;
-    }
-
-    public void setApiKeyHolder(APIKeyHolder apiKeyHolder) {
-        this.apiKeyHolder = apiKeyHolder;
     }
 
     public String getBaseURL() {
@@ -38,159 +31,147 @@ public class Account {
         this.baseURL = baseURL;
     }
 
-    public Map<String,Object> getBalance(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/balance",apiRequestPayload,isSimluate);
+    public <T> T getBalance(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"GET","/api/v5/account/balance",clazz);
         return  result;
     }
 
-    public Map<String,Object> getPositions(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/positions",apiRequestPayload,isSimluate);
+    public <T> List<T> getPositions(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/positions",clazz);
+        return result;
+    }
+
+    public <T> List<T> getPositionsHistory(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/positions-history",clazz);
         return  result;
     }
 
-    public Map<String,Object> getPositionsHistory(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/positions-history",apiRequestPayload,isSimluate);
+    public <T> T getPositionsRisk(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+
+        T result = commonAPICaller.execute(apiRequestPayload,"GET","/api/v5/account/account-position-risk",clazz);
         return  result;
     }
 
-    public Map<String,Object> getPositionsRisk(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/account-position-risk",apiRequestPayload,isSimluate);
+    public <T> List<T> getBills(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/bills",clazz);
         return  result;
     }
 
-    public Map<String,Object> getBills(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/bills",apiRequestPayload,isSimluate);
+    public <T> List<T> getBillsArchive(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/bills-archive",clazz);
         return  result;
     }
 
-    public Map<String,Object> getBillsArchive(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/bills-archive",apiRequestPayload,isSimluate);
+    public <T> T getConfig(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        //CommonAPICaller<APIRequestPayload,<T> List<T>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        T result = commonAPICaller.execute(apiRequestPayload,"GET","/api/v5/account/config",clazz);
         return  result;
     }
 
-    public Map<String,Object> getConfig(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/config",apiRequestPayload,isSimluate);
+    public <T> T setPositionMode(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        //CommonAPICaller<APIRequestPayload,<T> List<T>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/account/set-position-mode",clazz);
         return  result;
     }
 
-    public Map<String,Object> setPositionMode(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/account/set-position-mode",apiRequestPayload,isSimluate);
+    public <T> T setLeverage(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/account/set-leverage",clazz);
         return  result;
     }
 
-    public Map<String,Object> setLeverage(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/account/set-leverage",apiRequestPayload,isSimluate);
+    public <T> List<T> getMaxSize(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        //CommonAPICaller<APIRequestPayload,<T> List<T>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/max-size",clazz);
         return  result;
     }
 
-    public Map<String,Object> getMaxSize(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/max-size",apiRequestPayload,isSimluate);
+    public <T> List<T> getMaxAvaliableSize(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        //CommonAPICaller<APIRequestPayload,<T> List<T>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/max-avail-size",clazz);
         return  result;
     }
 
-    public Map<String,Object> getMaxAvaliableSize(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/max-avail-size",apiRequestPayload,isSimluate);
+    public <T> T marginBalance(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        //CommonAPICaller<APIRequestPayload,<T> List<T>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/account/position/margin-balance",clazz);
         return  result;
     }
 
-    public Map<String,Object> marginBalance(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/account/position/margin-balance",apiRequestPayload,isSimluate);
+    public <T> List<T> getleverageInfo(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        //CommonAPICaller<APIRequestPayload,<T> List<T>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/leverage-info",clazz);
         return  result;
     }
 
-    public Map<String,Object> getleverageInfo(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/leverage-info",apiRequestPayload,isSimluate);
+    public <T> List<T> getMaxLoan(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/max-loan",clazz);
         return  result;
     }
 
-    public Map<String,Object> getMaxLoan(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/max-loan",apiRequestPayload,isSimluate);
+    public <T> List<T> getTradeFee(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/trade-fee",clazz);
         return  result;
     }
 
-    public Map<String,Object> getTradeFee(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/trade-fee",apiRequestPayload,isSimluate);
+    public <T> List<T> getInterestAccrued(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        //CommonAPICaller<APIRequestPayload,<T> List<T>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/interest-accrued",clazz);
         return  result;
     }
 
-    public Map<String,Object> getInterestAccrued(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/interest-accrued",apiRequestPayload,isSimluate);
+    public <T> List<T> getInterestRate(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/interest-rate",clazz);
         return  result;
     }
 
-    public Map<String,Object> getInterestRate(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/interest-rate",apiRequestPayload,isSimluate);
+    public <T> T setGreeks(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/account/set-greeks",clazz);
         return  result;
     }
 
-    public Map<String,Object> setGreeks(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/account/set-greeks",apiRequestPayload,isSimluate);
+    public <T> T setIsolatedMode(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/account/set-isolated-mode",clazz);
         return  result;
     }
 
-    public Map<String,Object> setIsolatedMode(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/account/set-isolated-mode",apiRequestPayload,isSimluate);
+    public <T> List<T> getMaxWithdrawal(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/max-withdrawal",clazz);
         return  result;
     }
 
-    public Map<String,Object> getMaxWithdrawal(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/max-withdrawal",apiRequestPayload,isSimluate);
+    public <T> T getRiskState(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"GET","/api/v5/account/risk-state",clazz);
         return  result;
     }
 
-    public Map<String,Object> getRiskState(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/risk-state",apiRequestPayload,isSimluate);
+    public <T> T borrowRepay(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/account/borrow-repay",clazz);
         return  result;
     }
 
-    public Map<String,Object> borrowRepay(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/account/borrow-repay",apiRequestPayload,isSimluate);
+    public <T> List<T> getBorrowRepayHistory(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/borrow-repay-history",clazz);
         return  result;
     }
 
-    public Map<String,Object> getBorrowRepayHistory(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/borrow-repay-history",apiRequestPayload,isSimluate);
+    public <T> List<T> getInterestLimits(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/interest-limits",clazz);
         return  result;
     }
 
-    public Map<String,Object> getInterestLimits(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/interest-limits",apiRequestPayload,isSimluate);
+    public <T> T simulatedMargin(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/account/simulated_margin",clazz);
         return  result;
     }
 
-    public Map<String,Object> simulatedMargin(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("POST","/api/v5/account/simulated_margin",apiRequestPayload,isSimluate);
-        return  result;
-    }
-
-    public Map<String,Object> getGreeks(APIRequestPayload apiRequestPayload, boolean isSimluate) throws IOException {
-        //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
-        Map<String,Object> result = commonAPICaller.requestAPI("GET","/api/v5/account/greeks",apiRequestPayload,isSimluate);
+    public <T> T getGreeks(APIRequestPayload apiRequestPayload, Class<T> clazz)  throws IOException {
+        //CommonAPICaller<APIRequestPayload,<T> List<T>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
+        T result = commonAPICaller.execute(apiRequestPayload,"GET","/api/v5/account/greeks",clazz);
         return  result;
     }
 
