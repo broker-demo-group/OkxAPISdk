@@ -15,9 +15,6 @@ public class OkxSDK {
     final private static String baseURL = "https://www.okx.com";
 
     public static Client buildClient(APIKeyHolder apiKeyHolder, Client client, boolean isSimulate) {
-
-        CommonAPICaller<APIRequestPayload, Map<String, Object>> commonAPICaller = new CommonAPICaller<>(baseURL,
-                apiKeyHolder, isSimulate);
         CommonAPICaller<APIRequestPayload, JsonObject> commonAPICallerJSON = new CommonAPICaller<>(baseURL,
                 apiKeyHolder, isSimulate);
         // TODO Trade Account 等这些service 不传 apiKeyholder
@@ -42,8 +39,7 @@ public class OkxSDK {
         status.setCommonAPICaller(commonAPICallerJSON);
 
         TradingBigData tradingBigData = new TradingBigData();
-        tradingBigData.setApiKeyHolder(apiKeyHolder);
-        tradingBigData.setCommonAPICaller(commonAPICaller);
+        tradingBigData.setCommonAPICaller(commonAPICallerJSON);
 
         client.setAccount(account);
         client.setSubAccount(subAccount);
