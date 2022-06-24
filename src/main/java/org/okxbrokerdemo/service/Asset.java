@@ -26,8 +26,8 @@ public class Asset {
         this.commonAPICaller = commonAPICaller;
     }
 
-    public <T> List<T> getCurrencies(Class<T> clazz) {
-        return commonAPICaller.listExecute(() -> "{}", "GET", "/api/v5/asset/currencies", clazz);
+    public <T> List<T> getCurrencies(APIRequestPayload param,Class<T> clazz) {
+        return commonAPICaller.listExecute(param, "GET", "/api/v5/asset/currencies", clazz);
     }
 
     /**

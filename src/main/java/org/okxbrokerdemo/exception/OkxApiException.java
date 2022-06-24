@@ -7,6 +7,7 @@ package org.okxbrokerdemo.exception;
  **/
 public class OkxApiException extends RuntimeException {
     private int code;
+    private String detailMsg;
     private static final long serialVersionUID = 996L;
     public OkxApiException(String message, int code) {
         super(message);
@@ -15,6 +16,9 @@ public class OkxApiException extends RuntimeException {
 
     public OkxApiException(String message, Throwable e) {
         super(message, e);
+    }
+    public OkxApiException(Throwable e) {
+        super( e);
     }
 
     @Override
