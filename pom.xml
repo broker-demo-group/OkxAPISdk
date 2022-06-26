@@ -55,4 +55,46 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!--  https://maven.apache.org/plugins/maven-checkstyle-plugin/usage.html          -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.2</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>8.40</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!-- Here is the custom specification file address, and the confing directory is parallel to the Pom.xml -->
+                    <!--//checkstyle⾃定义⽂件位置-->
+                    <configLocation>src/main/resources/checkstyle.xml</configLocation>
+                    <!--//检测结果是否在控制台输出-->
+                    <consoleOutput>true</consoleOutput>
+                    <detail>true</detail>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <!--//执⾏的时候必须检测（不配置⽆法check代码）-->
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 为true时在违规时构建失败 -->
+                            <failOnViolation>false</failOnViolation>
+                            <!--为true并且 Checkstyle 报告了任何违规或错误，则在检查 logViolationsToConsole 的⽇志之前，在运⾏ Checkstyle 后构建会⽴即失败-->
+                            <failsOnError>false</failsOnError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

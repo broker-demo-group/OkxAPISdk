@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <property name="severity" value="error"/>
+
+    <!-- 文件长度不超过1500行（https://checkstyle.org/config_sizes.html） -->
+    <module name="FileLength">
+        <property name="max" value="1500"/>
+    </module>
+
+    <!-- 每行不超过120个字符（https://checkstyle.org/config_sizes.html）-->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
+
+    <module name="TreeWalker">
+
+        <!--            注解（https://checkstyle.org/config_annotation.html）           -->
+
+        <!-- 重写父类的方法不能缺少此标记 -->
+        <module name="MissingOverride"/>
+
+        <!--          代码块检查 （https://checkstyle.org/config_blocks.html）        -->
+
+        <!-- 不能有空的捕捉块，捕捉到的异常必须处理 -->
+        <module name="EmptyCatchBlock"/>
+        <!-- 所有区域都要使用大括号 -->
+        <module name="NeedBraces"/>
+        <!-- 不能出现空白区域 -->
+        <module name="EmptyBlock"/>
+
+
+        <!--              编码 （https://checkstyle.org/config_coding.html）          -->
+
+        <!-- 不许出现空语句 -->
+        <module name="EmptyStatement"/>
+        <!-- 内部类型必须定义在最底部 -->
+        <module name="InnerTypeLast"/>
+        <!-- 接口不允许只定义一个变量 -->
+        <module name="InterfaceIsType"/>
+        <!-- 确保一个类有package声明 -->
+        <module name="PackageDeclaration"/>
+
+        <!--    1、类（静态）变量。首先是public，然后是protected，然后是包级别（无访问修饰符），然后是private。
+                2、实例变量。首先是public，然后是protected，然后是包级别（无访问修饰符），然后是private。
+                3、构造函数
+                4、方法
+      -->
+        <module name="DeclarationOrder"/>
+        <!-- default必须在switch的最后 -->
+        <module name="DefaultComesLast"/>
+        <!-- 字符串判断相等时注意 -->
+        <module name="EqualsAvoidNull"/>
+        <!-- 初始化时赋值为默认值 ，例如int a = 0,此就是多余 -->
+        <module name="ExplicitInitialization"/>
+        <!-- switch规则 -->
+        <module name="FallThrough"/>
+        <!-- 不能catch java.lang.Exception   eip -->
+        <!--        <module name="IllegalCatch">-->
+        <!--            <property name="illegalClassNames" value="java.lang.Exception"/>-->
+        <!--        </module>-->
+        <!-- 非法抛出异常，Error, RuntimeException, Throwable, java.lang.Error,java.lang.RuntimeException, java.lang.Throwable不能抛出这些异常 -->
+        <module name="IllegalThrows"/>
+        <!-- 子表达式赋值，例如String s = Integer.toString(i = 2); -->
+        <module name="InnerAssignment"/>
+        <!-- 不允许魔法数 -->
+        <module name="MagicNumber">
+            <property name="tokens" value="NUM_DOUBLE, NUM_INT"/>
+        </module>
+        <!-- switch默认值 -->
+        <module name="MissingSwitchDefault"/>
+        <!-- 单 个类中相同字符串只能出现一次，多次出现用常量替换 -->
+        <module name="MultipleStringLiterals"/>
+        <!-- 同一行不能有多个声明 -->
+        <module name="MultipleVariableDeclarations"/>
+        <!-- for循环嵌套深度最大为4 -->
+        <module name="NestedForDepth">
+            <property name="max" value="4"/>
+        </module>
+        <!-- if嵌套尝试不能超过3 -->
+        <module name="NestedIfDepth">
+            <property name="max" value="3"/>
+        </module>
+        <!-- try嵌套尝试不能超过2 -->
+        <module name="NestedTryDepth">
+            <property name="max" value="2"/>
+        </module>
+        <!-- 当前对象的实例变量必须明确采用this.来调用 -->
+        <module name="RequireThis"/>
+        <!--  简化布尔表达式 ，如if(!false)可以简化为if(true)-->
+        <module name="SimplifyBooleanExpression"/>
+        <!-- 简化布尔返回，如if(true) return true 可简化为return true -->
+        <module name="SimplifyBooleanReturn"/>
+        <!-- String的比较不能用!= 和 == -->
+        <module name="StringLiteralEquality"/>
+        <!-- clone方法必须调用了super.clone() -->
+        <module name="SuperClone"/>
+        <!-- finalize 必须调用了super.finalize() -->
+        <module name="SuperFinalize"/>
+        <!-- 不必要的圆括号 -->
+        <module name="UnnecessaryParentheses"/>
+        <!-- 不必要的分号 -->
+        <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
+        <!-- 类成员声明后不必要的分号 -->
+        <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
+        <!-- trywithresource后不必要的分号 -->
+        <module name="UnnecessarySemicolonInTryWithResources"/>
+
+        <!--                import （https://checkstyle.org/config_imports.html）                    -->
+
+        <!-- 没用的import检查，比如：1.没有被用到2.重复的3.import java.lang的4.import  与该类在同一个package的 -->
+        <module name="UnusedImports"/>
+
+        <!--                    javadoc检查 （https://checkstyle.org/config_javadoc.html）           -->
+
+        <!-- 方法上缺少注释说明 -->
+        <module name="MissingJavadocMethod">
+            <property name="scope" value="public"/>
+            <property name="minLineCount" value="2"/>
+            <property name="allowedAnnotations" value="Override, Test"/>
+            <property name="tokens" value="METHOD_DEF,  ANNOTATION_FIELD_DEF,COMPACT_CTOR_DEF"/>
+        </module>
+
+        <!-- 指标检查，直译过来的，也可以叫代码逻辑复杂度（https://checkstyle.org/config_metrics.html） -->
+
+        <!-- 布尔表达式复杂度不能超过3 -->
+        <module name="BooleanExpressionComplexity"/>
+        <!-- 逻辑复杂度不能超过10，即if\for\while\try等嵌套不能超过10 -->
+        <module name="CyclomaticComplexity"/>
+
+        <!--                       杂项（https://checkstyle.org/config_misc.html）                           -->
+
+        <!-- 检查数组类型的定义是String[] args，而不是String args[] -->
+        <module name="ArrayTypeStyle"/>
+        <!-- 注释缩进规则 -->
+        <!--        <module name="CommentsIndentation">-->
+        <!--            <property name="tokens" value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>-->
+        <!--        </module>-->
+        <!-- 检查java代码的缩进 默认配置：基本缩进 4个空格，新行的大括号：0。新行的case 4个空格 -->
+        <module name="Indentation"/>
+        <!-- 注释不能加在行尾 -->
+        <module name="TrailingComment"/>
+        <!-- main方法必须注掉 -->
+        <!--        <module name="UncommentedMain"/>-->
+        <!-- 检查并确保所有的常量中的L都是大写的。因为小写的字母l跟数字1太象了 -->
+        <module name="UpperEll"/>
+
+        <!--               关键字（https://checkstyle.org/config_modifier.html）                                   -->
+
+        <!--
+            每个关键字都有正确的出现顺序。比如 public static final XXX 是对一个常量的声明。如果使用 static
+            public final 就是错误的
+        -->
+        <module name="ModifierOrder"/>
+        <!-- 多余的关键字 -->
+        <module name="RedundantModifier"/>
+
+        <!--                 命名方面的检查（https://checkstyle.org/config_naming.html）            -->
+
+        <!-- 抽象类的名称必须以Abstract开头 -->
+        <module name="AbstractClassName"/>
+        <!-- 常量名的检查 -->
+        <module name="ConstantName"/>
+        <!-- 非法标识符 -->
+        <module name="IllegalIdentifierName"/>
+        <!-- 接口类型参数非法标识符 -->
+        <!--        <module name="InterfaceTypeParameterName"/>-->
+        <!-- 局部的final变量，包括catch中的参数的检查，检查局部最终变量名称是否符合指定的模式。try 语句中的 catch 参数和资源被认为是局部的最终变量-->
+        <module name="LocalFinalVariableName"/>
+        <!-- 局部的非final型的变量，包括catch中的参数的检查 -->
+        <module name="LocalVariableName"/>
+        <!-- 非static型变量的检查 -->
+        <module name="MemberName"/>
+        <!-- 方法名的检查 -->
+        <module name="MethodName"/>
+        <!-- 方法类型参数名的检查，如 public <a> void method2() {}  a就不合格-->
+        <module name="MethodTypeParameterName"/>
+        <!-- 包名的检查（只允许小写字母） -->
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+        </module>
+        <!-- 方法的参数名 -->
+        <module name="ParameterName "/>
+        <!-- 仅仅是static型的变量（不包括static final型）的检查 -->
+        <module name="StaticVariableName"/>
+        <!-- 类型(Class或Interface)名的检查 -->
+        <module name="TypeName"/>
+
+        <!--            size（https://checkstyle.org/config_sizes.html）                -->
+
+        <!-- 方法不超过150行 -->
+        <module name="MethodLength">
+            <property name="tokens" value="METHOD_DEF"/>
+            <property name="max" value="150"/>
+        </module>
+        <!-- 方法的参数个数不超过5个。 并且不对构造方法进行检查-->
+        <module name="ParameterNumber">
+            <property name="max" value="7"/>
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
+
+
+
+        <!--            空格检查（https://checkstyle.org/config_whitespace.html）                -->
+
+        <!-- 允许方法名后紧跟左边圆括号"(" -->
+        <module name="MethodParamPad"/>
+        <!-- 在类型转换时，不允许左圆括号右边有空格，也不允许与右圆括号左边有空格 -->
+        <module name="TypecastParenPad"/>
+        <!-- 空行分隔符，指定位置之前应该有一行空格 -->
+        <module name="EmptyLineSeparator">
+            <property name="tokens"
+                      value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
+                    STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF, VARIABLE_DEF,
+                    COMPACT_CTOR_DEF"/>
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+        </module>
+        <!-- 尖括号内不能紧邻空格 -->
+        <module name="GenericWhitespace"/>
+        <!-- 左侧括号前不能有空格 -->
+        <module name="MethodParamPad"/>
+        <!-- 运算符换行时，运算符必须在新行开头位置 -->
+        <!--        <module name="OperatorWrap">-->
+        <!--            <property name="option" value="NL"/>-->
+        <!--            <property name="tokens"-->
+        <!--                      value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR,-->
+        <!--                    LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF,-->
+        <!--                    TYPE_EXTENSION_AND "/>-->
+        <!--        </module>-->
+        <!-- 小括号内不与有空格与括号相邻 -->
+        <module name="ParenPad"/>
+        <!-- 强制转换的小括号内不能有空格 -->
+        <module name="TypecastParenPad"/>
+
+    </module>
+</module>
