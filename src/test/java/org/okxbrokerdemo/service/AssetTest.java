@@ -16,7 +16,7 @@ import java.util.List;
  * @date: 2022/6/13  5:16 PM
  **/
 class AssetTest {
-    Client client = OkxSDK.getClient("","","", true);
+    Client client = OkxSDK.getClient("bd98f096-eed5-4dee-949e-a70de57f93ed","1D34C75FA4D8D164DBE3034D91762A71","Zbw@4455665585", true);
 
 
     @Test
@@ -67,7 +67,7 @@ class AssetTest {
 
     @Test
     void getCurrencies() {
-        List<JsonObject> currencies = client.getAsset().getCurrencies(JsonObject.class);
+        List<JsonObject> currencies = client.getAsset().getCurrencies(new ParamMap(),JsonObject.class);
         System.out.println(currencies);
     }
 
@@ -88,6 +88,7 @@ class AssetTest {
 
     @Test
     void getAssetTransferState() {
+        //error case
         ParamMap param = new ParamMap();
         param.add("transId", "248128445");
         JsonObject json = client.getAsset().getAssetTransferState(param, JsonObject.class);
