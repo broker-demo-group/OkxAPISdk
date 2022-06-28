@@ -50,11 +50,6 @@ public class Asset {
         return commonAPICaller.execute(param, "GET", "/api/v5/asset/asset-valuation", clazz);
     }
 
-    public <T> T getAssetValuation(Class<T> clazz) {
-        ParamMap param = new ParamMap();
-        param.add("ccy", "BTC");
-        return commonAPICaller.execute(param, "GET", "/api/v5/asset/asset-valuation", clazz);
-    }
 
     public <T> T assetTransfer(APIRequestPayload param, Class<T> clazz) {
         return commonAPICaller.execute(param, "POST", "/api/v5/asset/transfer", clazz);

@@ -24,6 +24,11 @@ public class Client {
 
     TradingBigData tradingBigData;
 
+
+    public Client(){
+
+    }
+
     public Grid getGrid() {
         return grid;
     }
@@ -31,6 +36,7 @@ public class Client {
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
+
     public TradingBigData getTradingBigData() {
         return tradingBigData;
     }
@@ -117,9 +123,6 @@ public class Client {
     }
 
 
-    public Client(){
-
-    }
 
     public APIKeyHolder getApiKeyHolder() {
         return apiKeyHolder;

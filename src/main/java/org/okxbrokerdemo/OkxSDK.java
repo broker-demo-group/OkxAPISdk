@@ -5,14 +5,12 @@ import com.google.gson.JsonObject;
 import org.okxbrokerdemo.service.*;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
-import java.util.Map;
-
 public class OkxSDK {
 
     public OkxSDK() {
     }
 
-    final private static String baseURL = "https://www.okx.com";
+    private static String baseURL = "https://www.okx.com";
 
     public static Client buildClient(APIKeyHolder apiKeyHolder, Client client, boolean isSimulate) {
         CommonAPICaller<APIRequestPayload, JsonObject> commonAPICallerJSON = new CommonAPICaller<>(baseURL,

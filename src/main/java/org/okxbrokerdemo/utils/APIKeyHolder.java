@@ -9,6 +9,7 @@ public class APIKeyHolder {
     private String accessToken;
 
     private AutorizationMethod autorizationMethod;
+
     public APIKeyHolder(){
 
     }
