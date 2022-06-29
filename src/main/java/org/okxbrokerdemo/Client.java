@@ -24,9 +24,19 @@ public class Client {
 
     TradingBigData tradingBigData;
 
+    BrokerService brokerService;
+
 
     public Client(){
 
+    }
+
+    public BrokerService getBrokerService() {
+        return brokerService;
+    }
+
+    public void setBrokerService(BrokerService brokerService) {
+        this.brokerService = brokerService;
     }
 
     public Grid getGrid() {

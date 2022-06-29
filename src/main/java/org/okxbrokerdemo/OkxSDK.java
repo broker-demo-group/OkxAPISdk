@@ -10,6 +10,7 @@ public class OkxSDK {
     public OkxSDK() {
     }
 
+
     private static String baseURL = "https://www.okx.com";
 
     public static Client buildClient(APIKeyHolder apiKeyHolder, Client client, boolean isSimulate) {
@@ -45,14 +46,13 @@ public class OkxSDK {
         client.setBulkTrade(bulkTrade);
         client.setTradingBigData(tradingBigData);
 
-
         client.setAsset(new Asset(commonAPICallerJSON));
         client.setAssetConvert(new AssetConvert(commonAPICallerJSON));
         client.setPublicService(new PublicService(commonAPICallerJSON));
         client.setMarket(new Market(commonAPICallerJSON));
         client.setCommonService(new CommonService(commonAPICallerJSON));
         client.setGrid(new Grid(commonAPICallerJSON));
-
+        client.setBrokerService(new BrokerService(commonAPICallerJSON));
         return client;
     }
 
@@ -61,7 +61,6 @@ public class OkxSDK {
         Client client = new Client();
         APIKeyHolder apiKeyHolder = new APIKeyHolder();
         apiKeyHolder.init(apiKey, secertKey, passPhrase);
-
         return buildClient(apiKeyHolder, client, isSimluate);
     }
 
@@ -70,6 +69,13 @@ public class OkxSDK {
         APIKeyHolder apiKeyHolder = new APIKeyHolder();
         apiKeyHolder.init(accessToken);
         return buildClient(apiKeyHolder, client, isSimluate);
+    }
 
+    public static String getBaseURL() {
+        return baseURL;
+    }
+
+    public static void setBaseURL(String baseURL) {
+        OkxSDK.baseURL = baseURL;
     }
 }
