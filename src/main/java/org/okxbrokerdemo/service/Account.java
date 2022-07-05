@@ -31,8 +31,8 @@ public class Account {
         this.baseURL = baseURL;
     }
 
-    public <T> T getBalance(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
-        T result = commonAPICaller.execute(apiRequestPayload,"GET","/api/v5/account/balance",clazz);
+    public <T> List<T> getBalance(APIRequestPayload apiRequestPayload, Class<T> clazz) throws IOException {
+        List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/account/balance",clazz);
         return  result;
     }
 

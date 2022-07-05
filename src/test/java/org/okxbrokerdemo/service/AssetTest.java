@@ -25,12 +25,6 @@ class AssetTest {
         System.out.println(getAccountPosition);
     }
 
-    @Test
-    void getAssetValuation() {
-        JsonObject result = client.getAsset().getAssetValuation(JsonObject.class);
-        System.out.println(result);
-
-    }
 
     @Test
     void testGetAssetValuation() {
