@@ -6,7 +6,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import okhttp3.OkHttpClient;
 import org.okxbrokerdemo.exception.OkxApiException;
+import org.okxbrokerdemo.intercepter.LogInterceptor;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 import org.okxbrokerdemo.utils.AutorizationMethod;
 import org.okxbrokerdemo.utils.SignatureGenerator;
@@ -28,28 +30,21 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
     private Retrofit retrofit;
     private CommonRequestRetrofit requestHandler;
 
-    private Class<R> myType;
     private APIKeyHolder apiKeyHolder;
     private boolean isSimulate;
 
     public CommonAPICaller(String baseUrl, APIKeyHolder apiKeyHolder, boolean isSimulate) {
-        retrofit = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(ScalarsConverterFactory.create()).build();
+
+        LogInterceptor logInterceptor = new LogInterceptor();
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logInterceptor).build();
+        retrofit =
+                new Retrofit.Builder().baseUrl(baseUrl).client(httpClient).addConverterFactory(ScalarsConverterFactory.create()).build();
         this.isSimulate = isSimulate;
         requestHandler = retrofit.create(CommonRequestRetrofit.class);
         this.apiKeyHolder = apiKeyHolder;
     }
 
-    public R getReturnTypes() {
-        Method method = null;
-        try {
-            method = this.getClass().getMethod("getReturnTypes");
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        Type returnParam = method.getGenericReturnType();
 
-        return null;
-    }
 
     public R requestAPI(String method, String path, E element, boolean isSimluate) throws IOException {
         String payload = element.getPayLoadJson();
@@ -178,7 +173,7 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
         try {
             JsonObject jsonObject = this.requestAPI(method, path, param, isSimulate, JsonObject.class);
             System.out.println("execute:"+jsonObject);
-            if (!jsonObject.get("code").getAsString().equals("0")){
+            if (!"0".equals(jsonObject.get("code").getAsString())){
                 throw new OkxApiException(jsonObject.get("msg").getAsString(),jsonObject.get("code").getAsInt());
             }
             JsonElement dataElement = jsonObject.get("data");
@@ -208,8 +203,10 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
 
 
             JsonObject jsonObject = this.requestAPI(method, path, param, isSimulate, JsonObject.class);
+            System.out.println("listExecute:"+jsonObject);
+
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
-            if (!jsonObject.get("code").getAsString().equals("0")){
+            if (!"0".equals(jsonObject.get("code").getAsString())){
                 throw new OkxApiException(jsonObject.get("msg").getAsString(),jsonObject.get("code").getAsInt());
             }
             if (dataList.size() == 0) {
