@@ -31,8 +31,13 @@ public class OkxApiException extends RuntimeException {
         this.code = code;
     }
 
+
+    public String getDetailMsg() {
+        return "{\"code\":\"" + code + "\" \"message\":\"" + super.getMessage() + "\"}";
+    }
+
     @Override
     public String getMessage() {
-        return " OkxApiAccessException:[code:"+code+" message:"+super.getMessage()+"]";
+        return " OkxApiAccessException:{\"code\":\"" + code + "\" \"message\":\"" + super.getMessage() + "\"}";
     }
 }
