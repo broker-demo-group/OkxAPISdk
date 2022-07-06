@@ -12,7 +12,7 @@ public class Status {
     private APIKeyHolder apiKeyHolder;
 
     private CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;
-    public <T> List<T> getStatus(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+    public <T> List<T> getStatus(APIRequestPayload apiRequestPayload,Class<T> clazz)  {
         //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         List<T> result = commonAPICaller.listExecute(apiRequestPayload,"GET","/api/v5/system/status",clazz);
         return  result;

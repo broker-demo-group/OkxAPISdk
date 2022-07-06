@@ -21,6 +21,7 @@ public class LogInterceptor implements Interceptor {
 
         System.out.println("------ "+response.method()+"  "+response.url()+" ------");
         System.out.println(response.headers());
+
         System.out.println(response.body());
 
 

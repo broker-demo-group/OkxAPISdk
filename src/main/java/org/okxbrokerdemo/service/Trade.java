@@ -50,7 +50,7 @@ public class Trade {
         this.commonAPICaller = commonAPICaller;
     }
 
-    public <T> T placeOrder(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+    public <T> T placeOrder(APIRequestPayload apiRequestPayload,Class<T> clazz)  {
         //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/trade/order",clazz);
         return  result;
@@ -64,13 +64,13 @@ public class Trade {
         this.apiKeyHolder = apiKeyHolder;
     }
 
-    public <T> List<T> batchOrders(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+    public <T> List<T> batchOrders(APIRequestPayload apiRequestPayload,Class<T> clazz)  {
         //CommonAPICaller<APIRequestPayload,Map<String,Object>> commonAPICaller = new CommonAPICaller<>(baseURL,apiKeyHolder);
         List<T> result = commonAPICaller.listExecute(apiRequestPayload,"POST","/api/v5/trade/batch-orders",clazz);
         return  result;
     }
 
-    public <T> T cancelOrder(APIRequestPayload apiRequestPayload,Class<T> clazz) throws IOException {
+    public <T> T cancelOrder(APIRequestPayload apiRequestPayload,Class<T> clazz)  {
         T result = commonAPICaller.execute(apiRequestPayload,"POST","/api/v5/trade/cancel-order",clazz);
 
         return result;
