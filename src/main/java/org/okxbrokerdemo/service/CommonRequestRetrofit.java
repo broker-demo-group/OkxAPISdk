@@ -5,12 +5,11 @@ import retrofit2.http.*;
 
 import java.util.Map;
 
-public interface CommonRequestRetrofit{
+public interface CommonRequestRetrofit {
     @POST
-    Call<String> commonPostRequest(@Url String endpoint, @HeaderMap Map<String,String> headers, @Body String payload);
+    Call<String> commonPostRequest(@Url String endpoint, @HeaderMap Map<String, String> headers, @Body String payload);
 
     @GET
-    Call<String> commonGetRequest(@Url String endpoint, @HeaderMap Map<String,String> headers);
-
+    Call<String> commonGetRequest(@Url String endpoint, @HeaderMap Map<String, String> headers, @QueryMap Map<String, String> queryMap);
 
 }

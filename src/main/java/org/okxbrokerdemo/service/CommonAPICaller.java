@@ -97,7 +97,7 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
 
             String sign = SignatureGenerator.Generate(timeStamp, method, "", path, apiKeyHolder.getSecretKey());
             headers = HeaderMapBuilder.build(apiKeyHolder.getApiKey(), sign, timeStamp, apiKeyHolder.getPassPhrase(), isSimluate);
-            Call<String> requestCall = requestHandler.commonGetRequest(path, headers);
+            Call<String> requestCall = requestHandler.commonGetRequest(path, headers, null);
             Response<String> response = requestCall.execute();
             if (response.isSuccessful()) {
                 return new Gson().fromJson(response.body(), retTyp);
@@ -116,7 +116,7 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
                 path = path.substring(0, path.length() - 1);
             }
 
-            Call<String> requestCall = requestHandler.commonGetRequest(path, headers);
+            Call<String> requestCall = requestHandler.commonGetRequest(path, headers, null);
             Response<String> response = requestCall.execute();
             if (response.isSuccessful()) {
                 return new Gson().fromJson(response.body(), retTyp);
@@ -159,7 +159,7 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
             }
             String sign = SignatureGenerator.Generate(timeStamp, method, "", path, apiKeyHolder.getSecretKey());
             headers = HeaderMapBuilder.build(apiKeyHolder.getApiKey(), sign, timeStamp, apiKeyHolder.getPassPhrase(), isSimluate);
-            Call<String> requestCall = requestHandler.commonGetRequest(path, headers);
+            Call<String> requestCall = requestHandler.commonGetRequest(path, headers, null);
             Response<String> response = requestCall.execute();
             if (response.isSuccessful()) {
                 return new Gson().fromJson(response.body(), clazz);
@@ -169,12 +169,12 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
         return null;
     }
 
-    public <T> T execute(E param, String method, String path, Class<T> clazz)throws OkxApiException{
+    public <T> T execute(E param, String method, String path, Class<T> clazz) throws OkxApiException {
         try {
             JsonObject jsonObject = this.requestAPI(method, path, param, isSimulate, JsonObject.class);
-            System.out.println("execute:"+jsonObject);
-            if (!"0".equals(jsonObject.get("code").getAsString())){
-                throw new OkxApiException(jsonObject.get("msg").getAsString(),jsonObject.get("code").getAsInt());
+            System.out.println("execute:" + jsonObject);
+            if (!"0".equals(jsonObject.get("code").getAsString())) {
+                throw new OkxApiException(jsonObject.get("msg").getAsString(), jsonObject.get("code").getAsInt());
             }
             JsonElement dataElement = jsonObject.get("data");
 
@@ -203,11 +203,11 @@ public class CommonAPICaller<E extends APIRequestPayload, R> {
 
 
             JsonObject jsonObject = this.requestAPI(method, path, param, isSimulate, JsonObject.class);
-            System.out.println("listExecute:"+jsonObject);
+            System.out.println("listExecute:" + jsonObject);
 
             JsonArray dataList = jsonObject.get("data").getAsJsonArray();
-            if (!"0".equals(jsonObject.get("code").getAsString())){
-                throw new OkxApiException(jsonObject.get("msg").getAsString(),jsonObject.get("code").getAsInt());
+            if (!"0".equals(jsonObject.get("code").getAsString())) {
+                throw new OkxApiException(jsonObject.get("msg").getAsString(), jsonObject.get("code").getAsInt());
             }
             if (dataList.size() == 0) {
                 return new ArrayList<>();

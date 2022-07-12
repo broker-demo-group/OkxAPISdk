@@ -2,6 +2,7 @@ package org.okxbrokerdemo;
 
 
 import com.google.gson.JsonObject;
+import org.okxbrokerdemo.handler.ApiHandler;
 import org.okxbrokerdemo.service.*;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
@@ -79,5 +80,11 @@ public class OkxSDK {
 
     public static void setBaseURL(String baseURL) {
         OkxSDK.baseURL = baseURL;
+    }
+
+
+
+    public static ApiHandler getApiHandler(){
+        return new ApiHandler();
     }
 }

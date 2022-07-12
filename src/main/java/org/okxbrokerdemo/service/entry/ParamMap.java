@@ -32,4 +32,12 @@ public class ParamMap implements APIRequestPayload {
         JsonObject jsonString = new Gson().fromJson(sb.toString(), JsonObject.class);
         return jsonString.toString();
     }
+
+    public boolean containsKey(String key) {
+        return param.containsKey(key);
+    }
+
+    public String get(String key) {
+        return param.get(key);
+    }
 }
