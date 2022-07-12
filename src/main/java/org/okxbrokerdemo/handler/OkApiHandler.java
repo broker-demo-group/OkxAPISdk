@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
-public class ApiHandler {
+public class OkApiHandler {
 
     private static final String BASE_URL = "https://aws.okx.com";
     private static final String SUCCESS_CODE = "0";
@@ -43,8 +43,9 @@ public class ApiHandler {
 
         parseAuthHeaders(request);
 
-        Call<String> call = generateHttpCall(getPath(request), request);
+        Call<String> call = generateHttpCall(request);
         if (Objects.isNull(call)) {
+            log.error("OkApiHandler handler failed,call isnull,request:{}", request);
             return null;
         }
 
@@ -61,6 +62,7 @@ public class ApiHandler {
 
     private void parseAuthHeaders(Request request) {
         if (Objects.isNull(request)) {
+            log.error("OkApiHandler parseAuthHeaders failed,request is null.");
             return;
         }
 
@@ -87,27 +89,29 @@ public class ApiHandler {
 
     private Object parseResponse(Response<String> response, Type responseType) {
         if (Objects.isNull(response) || Objects.isNull(responseType)) {
+            log.error("ApiHandler parseResponse failed,response or responseType is null");
             return null;
         }
 
         if (!response.isSuccessful() || StrUtil.isEmpty(response.body())) {
-            log.error("ApiHandler parse fail,error:{}", response.errorBody());
+            log.error("ApiHandler parseResponse failed,response:{},responseType:{}", response, responseType);
             return null;
         }
 
         JsonObject responseJsonObj = new JsonParser().parse(response.body()).getAsJsonObject();
         String code = responseJsonObj.get(FIELD_RESPONSE_CODE).getAsString();
         if (StrUtil.isEmpty(code)) {
-            log.error("ApiHandler parse fail,response:{}", responseJsonObj);
+            log.error("ApiHandler parseResponse failed,code is empty,response:{},responseType:{}", response, responseType);
             return null;
         }
 
         if (!Objects.equals(code, SUCCESS_CODE)) {
-            log.error("ApiHandler parse fail,code:{},msg:{}", code, responseJsonObj.get(FIELD_RESPONSE_MSG));
+            log.error("ApiHandler parseResponse failed,code:{},msg:{}", code, responseJsonObj.get(FIELD_RESPONSE_MSG));
         }
 
         JsonElement data = responseJsonObj.get(FIELD_RESPONSE_DATA);
         if (Objects.isNull(data)) {
+            log.error("ApiHandler parseResponse failed,data is null,response:{}", response);
             return null;
         }
 
@@ -115,38 +119,26 @@ public class ApiHandler {
     }
 
 
-    private Call<String> generateHttpCall(String path, Request request) {
-        if (Objects.isNull(path) || Objects.isNull(request)) {
+    private Call<String> generateHttpCall(Request request) {
+        if (Objects.isNull(request)) {
+            log.error("ApiHandler generateHttpCall failed,request is null");
             return null;
         }
 
         ApiEnum apiEnum = request.getApiEnum();
         switch (apiEnum.getMethodType()) {
             case GET:
-                return commonRequestRetrofit.commonGetRequest(path, request.getHeaderMap(),
+                return commonRequestRetrofit.commonGetRequest(apiEnum.getPath(), request.getHeaderMap(),
                         request.getQueryParamMap());
             case POST:
-                return commonRequestRetrofit.commonPostRequest(path, request.getHeaderMap(),
+                return commonRequestRetrofit.commonPostRequest(apiEnum.getPath(), request.getHeaderMap(),
                         request.getRequestBody());
             default:
                 break;
         }
 
+        log.error("ApiHandler generateHttpCall failed,methodType is not invalid,methodType:{}", apiEnum.getMethodType());
         return null;
-    }
-
-    private String getPath(Request request) {
-        if (Objects.isNull(request) || Objects.isNull(request.getApiEnum())) {
-            return null;
-        }
-
-        ApiEnum apiEnum = request.getApiEnum();
-
-
-        // TODO pathValue使用%s占位？
-        return apiEnum.isHasPathValue() ?
-                String.format(apiEnum.getPath(), request.getPathParam()) :
-                apiEnum.getPath();
     }
 
 }

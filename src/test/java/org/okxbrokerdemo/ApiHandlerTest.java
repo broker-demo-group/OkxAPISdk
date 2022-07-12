@@ -1,9 +1,10 @@
 package org.okxbrokerdemo;
 
+import cn.hutool.core.lang.Assert;
 import org.junit.jupiter.api.Test;
 import org.okxbrokerdemo.constant.ApiEnum;
 import org.okxbrokerdemo.handler.account.AccountBalance;
-import org.okxbrokerdemo.handler.ApiHandler;
+import org.okxbrokerdemo.handler.OkApiHandler;
 import org.okxbrokerdemo.handler.Request;
 import org.okxbrokerdemo.utils.AutorizationMethod;
 import java.util.HashMap;
@@ -13,10 +14,10 @@ class ApiHandlerTest {
 
     @Test
     void handle() {
-        ApiHandler apiHandler = new ApiHandler();
+        OkApiHandler okApiHandler = new OkApiHandler();
         HashMap<String, String> requestParam = new HashMap<>();
-        requestParam.put("ccy", "BTC");
-        List<AccountBalance> accountBalances = (List<AccountBalance>) apiHandler.handle(Request.builder()
+        requestParam.put("ccy", "USDT");
+        List<AccountBalance> accountBalances = (List<AccountBalance>) okApiHandler.handle(Request.builder()
                 .apiEnum(ApiEnum.QUERY_BALANCE)
                 .queryParamMap(new HashMap<>())
                 .headerMap(new HashMap<>())
@@ -25,7 +26,7 @@ class ApiHandlerTest {
                 .secretKey("FA66546C776AEF3547E210D56152DFC5")
                 .passPhrase("wL!8aDF2tba6iqA@")
                 .autorizationMethod(AutorizationMethod.APIKeyPair).build());
-        System.out.println(accountBalances);
+        Assert.notEmpty(accountBalances);
 
     }
 }

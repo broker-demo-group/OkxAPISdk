@@ -2,7 +2,7 @@ package org.okxbrokerdemo;
 
 
 import com.google.gson.JsonObject;
-import org.okxbrokerdemo.handler.ApiHandler;
+import org.okxbrokerdemo.handler.OkApiHandler;
 import org.okxbrokerdemo.service.*;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
@@ -83,8 +83,7 @@ public class OkxSDK {
     }
 
 
-
-    public static ApiHandler getApiHandler(){
-        return new ApiHandler();
+    public static OkApiHandler getApiHandler(){
+        return new OkApiHandler();
     }
 }

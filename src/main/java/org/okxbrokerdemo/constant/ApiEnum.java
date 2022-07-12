@@ -14,10 +14,11 @@ public enum ApiEnum {
     /**
      * acount api
      */
-    QUERY_BALANCE("/api/v5/account/balance", MethodTypeEnum.GET, new TypeToken<List<AccountBalance>>(){}.getType(), false);
+    QUERY_BALANCE("查询账户余额", "/api/v5/account/balance", MethodTypeEnum.GET, new TypeToken<List<AccountBalance>>() {}.getType());
 
+    private String desc;
     private String path;
     private MethodTypeEnum methodType;
     private Type responseType;
-    private boolean hasPathValue;
+
 }
