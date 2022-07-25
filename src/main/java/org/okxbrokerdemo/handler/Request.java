@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.okxbrokerdemo.constant.ApiEnum;
+import org.okxbrokerdemo.utils.APIKeyHolder;
 import org.okxbrokerdemo.utils.AutorizationMethod;
 import java.util.Map;
 
@@ -26,14 +27,5 @@ public class Request {
 
     private Boolean isSimluate;
 
-    AutorizationMethod autorizationMethod;
-
-    private String apiKey;
-
-    private String secretKey;
-
-    private String passPhrase;
-
-    private String accessToken;
 
 }

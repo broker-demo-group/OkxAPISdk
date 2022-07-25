@@ -1,19 +1,25 @@
 package org.okxbrokerdemo.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.google.gson.JsonObject;
+import org.okxbrokerdemo.constant.ApiEnum;
+import org.okxbrokerdemo.handler.OkApiHandler;
+import org.okxbrokerdemo.handler.Request;
+import org.okxbrokerdemo.handler.account.QueryAccountBalanceRes;
+import org.okxbrokerdemo.handler.account.AccountPosition;
+import org.okxbrokerdemo.handler.account.QueryAccountPositionHistoryReq;
+import org.okxbrokerdemo.handler.account.QueryAccountPositionHistoryRes;
 import org.okxbrokerdemo.utils.APIKeyHolder;
-
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Account {
     private String baseURL = "https://www.okx.com";
 
-    public Account(){
+    public Account(){}
 
-    }
-    private CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;;
+    private CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;
 
     public CommonAPICaller<APIRequestPayload, JsonObject> getCommonAPICaller() {
         return commonAPICaller;
@@ -44,6 +50,35 @@ public class Account {
     public <T> List<T> getPositionsHistory(APIRequestPayload apiRequestPayload, Class<T> clazz) {
         List<T> result = commonAPICaller.listExecute(apiRequestPayload, "GET", "/api/v5/account/positions-history", clazz);
         return result;
+    }
+
+    public List<QueryAccountBalanceRes> getBalance(String ccy, APIKeyHolder apiKeyHolder) {
+        Map<String, String> map = new HashMap<>();
+        if (StrUtil.isNotEmpty(ccy)) {
+            map.put("ccy", ccy);
+        }
+        Request request = Request.builder()
+                .apiEnum(ApiEnum.GET_ACCOUNT_BALANCES)
+                .isSimluate(true)
+                .queryParamMap(map).build();
+        return (List<QueryAccountBalanceRes>) OkApiHandler.handle(request, apiKeyHolder);
+    }
+
+    public List<AccountPosition> getPositions(String ccy, APIKeyHolder apiKeyHolder) {
+        Map<String, String> map = new HashMap<>();
+        if (StrUtil.isNotEmpty(ccy)) {
+            map.put("ccy", ccy);
+        }
+        Request request = Request.builder()
+                .apiEnum(ApiEnum.GET_ACCOUNT_POSITIONS)
+                .isSimluate(true)
+                .queryParamMap(map).build();
+        return (List<AccountPosition>) OkApiHandler.handle(request, apiKeyHolder);
+    }
+
+    public List<QueryAccountPositionHistoryRes> getPositionsHistory(QueryAccountPositionHistoryReq req, APIKeyHolder apiKeyHolder) {
+        Request request = OkApiHandler.generateRequest(req, ApiEnum.GET_ACCOUNT_POSITION_HISTORY);
+        return (List<QueryAccountPositionHistoryRes>) OkApiHandler.handle(request, apiKeyHolder);
     }
 
     public <T> T getPositionsRisk(APIRequestPayload apiRequestPayload, Class<T> clazz) {

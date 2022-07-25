@@ -1,16 +1,33 @@
 package org.okxbrokerdemo;
 
 
-import org.okxbrokerdemo.service.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.okxbrokerdemo.service.Account;
+import org.okxbrokerdemo.service.Asset;
+import org.okxbrokerdemo.service.AssetConvert;
+import org.okxbrokerdemo.service.Broker;
+import org.okxbrokerdemo.service.BulkTrade;
+import org.okxbrokerdemo.service.CommonService;
+import org.okxbrokerdemo.service.Grid;
+import org.okxbrokerdemo.service.Market;
+import org.okxbrokerdemo.service.PublicService;
+import org.okxbrokerdemo.service.Status;
+import org.okxbrokerdemo.service.SubAccount;
+import org.okxbrokerdemo.service.Trade;
+import org.okxbrokerdemo.service.TradingBigData;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client {
 
     APIKeyHolder apiKeyHolder;
     Grid grid;
-
-
-
     Trade trade;
     Asset asset;
     Account account;
@@ -21,132 +38,7 @@ public class Client {
     BulkTrade bulkTrade;
     PublicService publicService;
     CommonService commonService;
-
     TradingBigData tradingBigData;
+    Broker broker;
 
-    BrokerService brokerService;
-
-
-    public Client(){
-
-    }
-
-    public BrokerService getBrokerService() {
-        return brokerService;
-    }
-
-    public void setBrokerService(BrokerService brokerService) {
-        this.brokerService = brokerService;
-    }
-
-    public Grid getGrid() {
-        return grid;
-    }
-
-    public void setGrid(Grid grid) {
-        this.grid = grid;
-    }
-
-    public TradingBigData getTradingBigData() {
-        return tradingBigData;
-    }
-
-    public void setTradingBigData(TradingBigData tradingBigData) {
-        this.tradingBigData = tradingBigData;
-    }
-
-
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-
-
-    public BulkTrade getBulkTrade() {
-        return bulkTrade;
-    }
-
-    public void setBulkTrade(BulkTrade bulkTrade) {
-        this.bulkTrade = bulkTrade;
-    }
-
-    public Market getMarket() {
-        return market;
-    }
-
-    public void setMarket(Market market) {
-        this.market = market;
-    }
-
-    public PublicService getPublicService() {
-        return publicService;
-    }
-
-    public void setPublicService(PublicService publicService) {
-        this.publicService = publicService;
-    }
-
-    public CommonService getCommonService() {
-        return commonService;
-    }
-
-    public void setCommonService(CommonService commonService) {
-        this.commonService = commonService;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public SubAccount getSubAccount() {
-        return subAccount;
-    }
-
-    public void setSubAccount(SubAccount subAccount) {
-        this.subAccount = subAccount;
-    }
-
-
-    public Asset getAsset() {
-        return asset;
-    }
-
-    public void setAsset(Asset asset) {
-        this.asset = asset;
-    }
-
-    public AssetConvert getAssetConvert() {
-        return assetConvert;
-    }
-
-    public void setAssetConvert(AssetConvert assetConvert) {
-        this.assetConvert = assetConvert;
-    }
-
-
-
-    public APIKeyHolder getApiKeyHolder() {
-        return apiKeyHolder;
-    }
-
-    public void setApiKeyHolder(APIKeyHolder apiKeyHolder) {
-        this.apiKeyHolder = apiKeyHolder;
-    }
-
-    public Trade getTrade() {
-        return trade;
-    }
-
-    public void setTrade(Trade trade) {
-        this.trade = trade;
-    }
 }

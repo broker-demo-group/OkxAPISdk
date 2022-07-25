@@ -36,22 +36,22 @@ class AssetTest {
 
     @Test
     void assetTransfer() throws InterruptedException {
-        ParamMap param = new ParamMap();
-        param.add("ccy", "BTC");
-        param.add("amt", "1");
-        param.add("from", "18"); // 6:funding account 18: trading account
-        param.add("to", "6");
-        param.add("clientId", "whosyourdaddy");
-        JsonObject result;
-        result = client.getAsset().assetTransfer(param, JsonObject.class);
-        System.out.println(result);
-        this.testGetAssetValuation();
-        Thread.sleep(1100);
-        param.add("from", "6");
-        param.add("to", "18");
-        result = client.getAsset().assetTransfer(param, JsonObject.class);
-        System.out.println(result);
-        this.testGetAssetValuation();
+//        ParamMap param = new ParamMap();
+//        param.add("ccy", "BTC");
+//        param.add("amt", "1");
+//        param.add("from", "18"); // 6:funding account 18: trading account
+//        param.add("to", "6");
+//        param.add("clientId", "whosyourdaddy");
+//        JsonObject result;
+//        result = client.getAsset().assetTransfer(param, JsonObject.class);
+//        System.out.println(result);
+//        this.testGetAssetValuation();
+//        Thread.sleep(1100);
+//        param.add("from", "6");
+//        param.add("to", "18");
+//        result = client.getAsset().assetTransfer(param, JsonObject.class);
+//        System.out.println(result);
+//        this.testGetAssetValuation();
     }
 
 
@@ -61,8 +61,8 @@ class AssetTest {
 
     @Test
     void getCurrencies() {
-        List<JsonObject> currencies = client.getAsset().getCurrencies(new ParamMap(),JsonObject.class);
-        System.out.println(currencies);
+//        List<JsonObject> currencies = client.getAsset().getCurrencies(new ParamMap(),JsonObject.class);
+//        System.out.println(currencies);
     }
 
     @Test

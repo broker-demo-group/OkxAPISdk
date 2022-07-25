@@ -53,7 +53,7 @@ public class OkxSDK {
         client.setMarket(new Market(commonAPICallerJSON));
         client.setCommonService(new CommonService(commonAPICallerJSON));
         client.setGrid(new Grid(commonAPICallerJSON));
-        client.setBrokerService(new BrokerService(commonAPICallerJSON));
+        client.setBroker(new Broker(commonAPICallerJSON));
 
 
         return client;

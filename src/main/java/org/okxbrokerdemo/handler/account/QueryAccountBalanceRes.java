@@ -7,7 +7,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class AccountBalance {
+public class QueryAccountBalanceRes {
 
     @SerializedName("adjEq")
     private String adjEq;

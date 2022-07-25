@@ -2,8 +2,17 @@ package org.okxbrokerdemo.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.okxbrokerdemo.constant.ApiEnum;
+import org.okxbrokerdemo.handler.OkApiHandler;
+import org.okxbrokerdemo.handler.Request;
+import org.okxbrokerdemo.handler.broker.CreatSubAccountDepositAddressRes;
+import org.okxbrokerdemo.handler.broker.CreateSubAccountDepositeAddressReq;
+import org.okxbrokerdemo.handler.broker.QuerySubAccountDepositAddressReq;
+import org.okxbrokerdemo.handler.broker.QuerySubAccountDepositAddressRes;
+import org.okxbrokerdemo.handler.funding.WithdrawalRes;
+import org.okxbrokerdemo.handler.funding.WithdrawlReq;
 import org.okxbrokerdemo.service.entry.ParamMap;
-
+import org.okxbrokerdemo.utils.APIKeyHolder;
 import java.util.List;
 
 /**
@@ -11,11 +20,28 @@ import java.util.List;
  * @description:
  * @date: 2022/6/29  3:34 PM
  **/
-public class BrokerService {
+public class Broker {
     CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller;
 
-    public BrokerService(CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller) {
+    public Broker(CommonAPICaller<APIRequestPayload, JsonObject> commonAPICaller) {
         this.commonAPICaller = commonAPICaller;
+
+    }
+
+
+    public List<QuerySubAccountDepositAddressRes> getSubAccountDepositAddress(QuerySubAccountDepositAddressReq req, APIKeyHolder apiKeyHolder) {
+        Request request = OkApiHandler.generateRequest(req, ApiEnum.GET_ND_BROKER_SUB_ACCOUNT_DEPOSIT_ADDRESS);
+        return (List) OkApiHandler.handle(request, apiKeyHolder);
+    }
+
+    public List<CreatSubAccountDepositAddressRes> createSubAccountDepositAddress(CreateSubAccountDepositeAddressReq req, APIKeyHolder apiKeyHolder) {
+        Request request = OkApiHandler.generateRequest(req, ApiEnum.CREATE_DEPOSIT_ADDRESS_FOR_SUB_ACCOUNT);
+        return (List) OkApiHandler.handle(request, apiKeyHolder);
+    }
+
+    public List<WithdrawalRes> withdrawal(WithdrawlReq req, APIKeyHolder apiKeyHolder) {
+        Request request = OkApiHandler.generateRequest(req, ApiEnum.WITHDRAWAL);
+        return (List<WithdrawalRes>) OkApiHandler.handle(request, apiKeyHolder);
 
     }
 
@@ -96,7 +122,7 @@ public class BrokerService {
      * subAcct  String  yes  子账户名
      * chain	String	no	    币种链信息
      * clientId String	no	    客户自定义ID
-     *
+     * <p>
      * return:
      * ccy	    String	提币币种
      * chain	String	币种链信息
@@ -120,27 +146,27 @@ public class BrokerService {
 
         //mainAccount withdraw
         ParamMap param2 = new ParamMap();
-        param2.add("ccy",param.get("ccy"));
-        param2.add("amt",param.get("amt"));
-        param2.add("dest",param.get("dest"));
-        param2.add("toAddr",param.get("toAddr"));
-        param2.add("fee",param.get("fee"));
-        param2.add("clientId",param.get("clientId"));
+        param2.add("ccy", param.get("ccy"));
+        param2.add("amt", param.get("amt"));
+        param2.add("dest", param.get("dest"));
+        param2.add("toAddr", param.get("toAddr"));
+        param2.add("fee", param.get("fee"));
+        param2.add("clientId", param.get("clientId"));
         JsonObject reslut = commonAPICaller.execute(param2, "POST", "/api/v5/asset/withdrawal", JsonObject.class);
 
-        return new Gson().fromJson(reslut,clazz);
+        return new Gson().fromJson(reslut, clazz);
     }
 
 
     /**
      * 通过 Broker 账户，将一个子账户资产转移到另一个子账户中
-     *
+     * <p>
      * param     type   notNull note
      * ccy     String   yss     币种
      * amt     String   yes     数量
      * fromSubAcct  String  yes 转出子账户名
      * toSubAcct  String  yes   转入子账户名
-     *
+     * <p>
      * return:
      * transId	String	划转ID（mainAccount2SubAccount）
      * ccy	String	    划转币种
@@ -174,10 +200,10 @@ public class BrokerService {
         if (param.containsKey("clientId")) {
             param2.add("clientId", param.get("clientId"));
         }
-        JsonObject result =commonAPICaller.execute(param2, "POST", "/api/v5/asset/transfer", JsonObject.class);
+        JsonObject result = commonAPICaller.execute(param2, "POST", "/api/v5/asset/transfer", JsonObject.class);
 
 
-        return new Gson().fromJson(result,clazz);
+        return new Gson().fromJson(result, clazz);
     }
 
 
