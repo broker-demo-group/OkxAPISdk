@@ -9,6 +9,8 @@ import org.okxbrokerdemo.handler.account.QueryAccountPositionHistoryRes;
 import org.okxbrokerdemo.handler.asset.QueryCurrencyRes;
 import org.okxbrokerdemo.handler.broker.CreatSubAccountDepositAddressRes;
 import org.okxbrokerdemo.handler.broker.QuerySubAccountDepositAddressRes;
+import org.okxbrokerdemo.handler.broker.QuerySubAccountListReq;
+import org.okxbrokerdemo.handler.broker.SetTradingFeeRateReq;
 import org.okxbrokerdemo.handler.funding.TransferRes;
 import org.okxbrokerdemo.handler.funding.WithdrawalRes;
 import org.okxbrokerdemo.handler.subaccount.SetTransOutRes;
@@ -46,7 +48,11 @@ public enum ApiEnum {
     }.getType()),
     PLACE_ORDER("/api/v5/trade/order", MethodTypeEnum.POST, new TypeToken<List<PlaceOrderRes>>() {
     }.getType()),
-    ;
+    SET_TRADING_FEE_RATE("/api/v5/broker/nd/set-subaccount-fee-rate", MethodTypeEnum.POST, new TypeToken<SetTradingFeeRateReq>() {
+    }.getType()),
+    GET_SUB_ACCOUNT_LIST("/api/v5/broker/nd/subaccount-info", MethodTypeEnum.GET,
+            new TypeToken<QuerySubAccountListReq>() {
+            }.getType());
 
     private String path;
     private MethodTypeEnum methodType;

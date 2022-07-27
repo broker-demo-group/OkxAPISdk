@@ -17,7 +17,7 @@ public class APIKeyHolder {
     private String accessToken;
     private AutorizationMethod autorizationMethod;
 
-    private Boolean isSimluate;
+    private Boolean isSimluate = true;
 
     public void init(String apiKey, String secertKey, String passPhrase) {
         this.apiKey = apiKey;

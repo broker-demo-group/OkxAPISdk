@@ -9,6 +9,10 @@ import org.okxbrokerdemo.handler.broker.CreatSubAccountDepositAddressRes;
 import org.okxbrokerdemo.handler.broker.CreateSubAccountDepositeAddressReq;
 import org.okxbrokerdemo.handler.broker.QuerySubAccountDepositAddressReq;
 import org.okxbrokerdemo.handler.broker.QuerySubAccountDepositAddressRes;
+import org.okxbrokerdemo.handler.broker.QuerySubAccountListReq;
+import org.okxbrokerdemo.handler.broker.QuerySubAccountListRes;
+import org.okxbrokerdemo.handler.broker.SetTradingFeeRateReq;
+import org.okxbrokerdemo.handler.broker.SetTradingFeeRateRes;
 import org.okxbrokerdemo.handler.funding.WithdrawalRes;
 import org.okxbrokerdemo.handler.funding.WithdrawlReq;
 import org.okxbrokerdemo.service.entry.ParamMap;
@@ -27,7 +31,6 @@ public class Broker {
         this.commonAPICaller = commonAPICaller;
 
     }
-
 
     public List<QuerySubAccountDepositAddressRes> getSubAccountDepositAddress(QuerySubAccountDepositAddressReq req, APIKeyHolder apiKeyHolder) {
         Request request = OkApiHandler.generateRequest(req, ApiEnum.GET_ND_BROKER_SUB_ACCOUNT_DEPOSIT_ADDRESS);
@@ -57,6 +60,11 @@ public class Broker {
         return commonAPICaller.execute(param, "POST", "/api/v5/broker/nd/delete-subaccount", clazz);
     }
 
+    public List<QuerySubAccountListRes> getSubAccountList(QuerySubAccountListReq req, APIKeyHolder apiKeyHolder) {
+        Request request = OkApiHandler.generateRequest(req, ApiEnum.GET_SUB_ACCOUNT_LIST);
+        return (List<QuerySubAccountListRes>) OkApiHandler.handle(request, apiKeyHolder);
+    }
+
     public <T> List<T> getSubAccountList(APIRequestPayload param, Class<T> clazz) {
         return commonAPICaller.listExecute(param, "GET", "/api/v5/broker/nd/subaccount-info", clazz);
     }
@@ -80,6 +88,12 @@ public class Broker {
 
     public <T> T setSubAccountLevel(APIRequestPayload param, Class<T> clazz) {
         return commonAPICaller.execute(param, "POST", "/api/v5/broker/nd/set-subaccount-level", clazz);
+    }
+
+
+    public List<SetTradingFeeRateRes> setSubAccountFeeRate(SetTradingFeeRateReq req, APIKeyHolder apiKeyHolder) {
+        Request request = OkApiHandler.generateRequest(req, ApiEnum.SET_TRADING_FEE_RATE);
+        return (List<SetTradingFeeRateRes>) OkApiHandler.handle(request, apiKeyHolder);
     }
 
     public <T> T setSubAccountFeeRate(APIRequestPayload param, Class<T> clazz) {
@@ -111,7 +125,6 @@ public class Broker {
     }
 
     /**
-     *
      * 子账户的资产通过 broker 账户转出
      * param     type   notNull note
      * ccy     String   yss     币种
