@@ -1,12 +1,11 @@
 package org.okxbrokerdemo.utils;
 
 
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import org.apache.tomcat.util.codec.binary.Base64;
+import java.util.Base64;
 public class SignatureGenerator {
     /**
      * OK-ACCESS-SIGN的请求头是对timestamp + method + requestPath + body字符串（+表示字符串连接），以及SecretKey，使用HMAC SHA256方法加密，通过Base-64编码输出而得到的。
@@ -31,7 +30,7 @@ public class SignatureGenerator {
             Mac hmac_sha256 = Mac.getInstance("HmacSHA256");
             SecretKeySpec secret_key = new SecretKeySpec(secertKey.getBytes(), "HmacSHA256");
             hmac_sha256.init(secret_key);
-            result = Base64.encodeBase64String(hmac_sha256.doFinal(signStr.getBytes()));
+            result = Base64.getEncoder().encodeToString(hmac_sha256.doFinal(signStr.getBytes()));
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         } catch (InvalidKeyException e) {
