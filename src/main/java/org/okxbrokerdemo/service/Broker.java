@@ -42,12 +42,6 @@ public class Broker {
         return (List) OkApiHandler.handle(request, apiKeyHolder);
     }
 
-    public List<WithdrawalRes> withdrawal(WithdrawlReq req, APIKeyHolder apiKeyHolder) {
-        Request request = OkApiHandler.generateRequest(req, ApiEnum.WITHDRAWAL);
-        return (List<WithdrawalRes>) OkApiHandler.handle(request, apiKeyHolder);
-
-    }
-
     public <T> T getInfo(APIRequestPayload param, Class<T> clazz) {
         return commonAPICaller.execute(param, "GET", "/api/v5/broker/nd/info", clazz);
     }

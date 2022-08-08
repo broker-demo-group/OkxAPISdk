@@ -6,6 +6,8 @@ import org.okxbrokerdemo.handler.OkApiHandler;
 import org.okxbrokerdemo.handler.Request;
 import org.okxbrokerdemo.handler.subaccount.SetTransOutReq;
 import org.okxbrokerdemo.handler.subaccount.SetTransOutRes;
+import org.okxbrokerdemo.handler.subaccount.SubAccountTransferReq;
+import org.okxbrokerdemo.handler.subaccount.SubAccountTransferRes;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 import java.util.List;
 
@@ -54,9 +56,9 @@ public class SubAccount {
         return result;
     }
 
-    public <T> T subAccountTransfer(APIRequestPayload apiRequestPayload, Class<T> clazz) {
-        T result = commonAPICaller.execute(apiRequestPayload, "POST", "/api/v5/asset/subaccount/transfer", clazz);
-        return result;
+    public List<SubAccountTransferRes> subAccountTransfer(SubAccountTransferReq req, APIKeyHolder apiKeyHolder) {
+        Request request = OkApiHandler.generateRequest(req, ApiEnum.MASTER_ACCOUNTS_MANAGE_THE_TRANSFERS_BETWEEN_SUB_ACCOUNTS);
+        return (List<SubAccountTransferRes>) OkApiHandler.handle(request, apiKeyHolder);
     }
 
     public <T> T setTransferOut(APIRequestPayload apiRequestPayload, Class<T> clazz) {

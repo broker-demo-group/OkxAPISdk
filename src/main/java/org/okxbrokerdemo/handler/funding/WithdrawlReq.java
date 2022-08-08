@@ -12,17 +12,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WithdrawlReq {
 
-    @SerializedName("amt")
-    private String amt;
-    @SerializedName("fee")
-    private String fee;
-    @SerializedName("dest")
-    private String dest;
     @SerializedName("ccy")
     private String ccy;
-    @SerializedName("chain")
-    private String chain;
+    @SerializedName("amt")
+    private String amt;
+    @SerializedName("dest")
+    private String dest;
+    @SerializedName("fee")
+    private String fee;
     @SerializedName("toAddr")
     private String toAddr;
+    @SerializedName("chain")
+    private String chain;
+    @SerializedName("clientId")
+    private String clientId;
 
 }

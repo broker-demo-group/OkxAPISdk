@@ -11,9 +11,11 @@ import org.okxbrokerdemo.handler.broker.CreatSubAccountDepositAddressRes;
 import org.okxbrokerdemo.handler.broker.QuerySubAccountDepositAddressRes;
 import org.okxbrokerdemo.handler.broker.QuerySubAccountListReq;
 import org.okxbrokerdemo.handler.broker.SetTradingFeeRateReq;
+import org.okxbrokerdemo.handler.funding.QueryBalanceRes;
 import org.okxbrokerdemo.handler.funding.TransferRes;
 import org.okxbrokerdemo.handler.funding.WithdrawalRes;
 import org.okxbrokerdemo.handler.subaccount.SetTransOutRes;
+import org.okxbrokerdemo.handler.subaccount.SubAccountTransferRes;
 import org.okxbrokerdemo.handler.trade.PlaceOrderRes;
 import org.okxbrokerdemo.handler.trade.QueryOrderDetailRes;
 import java.lang.reflect.Type;
@@ -26,6 +28,7 @@ public enum ApiEnum {
     /**
      * api
      */
+    GET_BALANCE("/api/v5/asset/balances",MethodTypeEnum.GET,new TypeToken<List<QueryBalanceRes>>(){}.getType()),
     GET_ACCOUNT_BALANCES("/api/v5/account/balance", MethodTypeEnum.GET, (new TypeToken<List<QueryAccountBalanceRes>>() {
     }).getType()),
     GET_ACCOUNT_POSITIONS("/api/v5/account/positions", MethodTypeEnum.GET, (new TypeToken<List<AccountPosition>>() {
@@ -50,9 +53,11 @@ public enum ApiEnum {
     }.getType()),
     SET_TRADING_FEE_RATE("/api/v5/broker/nd/set-subaccount-fee-rate", MethodTypeEnum.POST, new TypeToken<SetTradingFeeRateReq>() {
     }.getType()),
-    GET_SUB_ACCOUNT_LIST("/api/v5/broker/nd/subaccount-info", MethodTypeEnum.GET,
-            new TypeToken<QuerySubAccountListReq>() {
-            }.getType());
+    GET_SUB_ACCOUNT_LIST("/api/v5/broker/nd/subaccount-info", MethodTypeEnum.GET, new TypeToken<QuerySubAccountListReq>() {
+    }.getType()),
+    MASTER_ACCOUNTS_MANAGE_THE_TRANSFERS_BETWEEN_SUB_ACCOUNTS("/api/v5/asset/subaccount/transfer", MethodTypeEnum.GET, new TypeToken<List<SubAccountTransferRes>>() {
+    }.getType()),
+    ;
 
     private String path;
     private MethodTypeEnum methodType;

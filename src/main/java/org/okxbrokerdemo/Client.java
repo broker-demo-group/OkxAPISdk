@@ -11,6 +11,7 @@ import org.okxbrokerdemo.service.AssetConvert;
 import org.okxbrokerdemo.service.Broker;
 import org.okxbrokerdemo.service.BulkTrade;
 import org.okxbrokerdemo.service.CommonService;
+import org.okxbrokerdemo.service.Funding;
 import org.okxbrokerdemo.service.Grid;
 import org.okxbrokerdemo.service.Market;
 import org.okxbrokerdemo.service.PublicService;
@@ -40,5 +41,6 @@ public class Client {
     CommonService commonService;
     TradingBigData tradingBigData;
     Broker broker;
+    private Funding funding;
 
 }

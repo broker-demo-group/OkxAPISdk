@@ -16,8 +16,6 @@ import org.okxbrokerdemo.service.CommonRequestRetrofit;
 import org.okxbrokerdemo.utils.APIKeyHolder;
 import org.okxbrokerdemo.utils.HeaderMapBuilder;
 import org.okxbrokerdemo.utils.SignatureGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -31,7 +29,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class OkApiHandler {
 
     private static final String BASE_URL = "https://www.okx.com/";
@@ -114,19 +111,19 @@ public class OkApiHandler {
 
     private static Object parseResponse(Response<String> response, Type responseType) {
         if (Objects.isNull(response)) {
-            log.error("ApiHandler parseResponse failed,response or responseType is null");
+//            log.error("ApiHandler parseResponse failed,response or responseType is null");
             throw new OkxApiException("response is null", 10002);
         } else if (!response.isSuccessful()) {
-            log.error("ApiHandler parseResponse failed,response:{},responseType:{}", response, responseType);
+//            log.error("ApiHandler parseResponse failed,response:{},responseType:{}", response, responseType);
             throw new OkxApiException("response:" + response.errorBody(), 10002);
         } else {
             JsonObject responseJsonObj = (new JsonParser()).parse(response.body()).getAsJsonObject();
             String code = responseJsonObj.get(FIELD_RESPONSE_CODE).getAsString();
             if (StrUtil.isEmpty(code)) {
-                log.error("ApiHandler parseResponse failed,code is empty,response:{},responseType:{}", response, responseType);
+//                log.error("ApiHandler parseResponse failed,code is empty,response:{},responseType:{}", response, responseType);
                 throw new OkxApiException("code is empty:" + response, 10002);
             } else if (!Objects.equals(code, SUCCESS_CODE)) {
-                log.error("ApiHandler parseResponse failed,code:{},msg:{}", code, responseJsonObj.get(FIELD_RESPONSE_MSG));
+//                log.error("ApiHandler parseResponse failed,code:{},msg:{}", code, responseJsonObj.get(FIELD_RESPONSE_MSG));
                 throw new OkxApiException("code:" + code, 10002);
             } else {
                 return (new Gson()).fromJson(responseJsonObj.get(FIELD_RESPONSE_DATA), responseType);

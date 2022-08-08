@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.okxbrokerdemo.constant.TransferTypeEnum;
 
 @Data
 @Builder
@@ -23,7 +24,8 @@ public class TransferReq {
     @SerializedName("subAcct")
     private String subAcct;
     @SerializedName("type")
-    private String type;
+    @Builder.Default
+    private String type = TransferTypeEnum.TRANSFER_WITHIN_ACCOUNT.getType();
     @SerializedName("loanTrans")
     private String loanTrans;
     @SerializedName("clientId")

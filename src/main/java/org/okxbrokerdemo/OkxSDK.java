@@ -54,6 +54,7 @@ public class OkxSDK {
         client.setCommonService(new CommonService(commonAPICallerJSON));
         client.setGrid(new Grid(commonAPICallerJSON));
         client.setBroker(new Broker(commonAPICallerJSON));
+        client.setFunding(new Funding());
 
 
         return client;
